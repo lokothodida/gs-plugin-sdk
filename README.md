@@ -1,4 +1,4 @@
-# Getsimple (GS) Utilities Polyfill
+# Getsimple Plugin SDK
 The purpose of this project is to provide a library that is:
 
 * **portable** *(easy to add to add/remove from a plugin)*
@@ -17,4 +17,4 @@ in order to simplify the typical problems that arise during GetSimple plugin dev
 This project is a "polyfill" because in the ideal scenario, many of these functions will be integrated in the future into the GetSimple core in some manner. If/when they do, the methods in this repository will become wrappers for the native functions (thus fulfilling the backward/forward compatible point above).
 
 # Getting Started
-Head over to the [wiki](https://github.com/lokothodida/gs-utils-polyfill/wiki).
+Head over to the [wiki](https://github.com/lokothodida/gs-plugin-sdk/wiki).
