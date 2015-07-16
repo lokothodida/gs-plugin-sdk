@@ -1,4 +1,4 @@
-# Getsimple Plugin SDK
+# GetSimple CMS Plugin SDK
 The purpose of this project is to provide a library that is:
 
 * **portable** *(easy to add to add/remove from a plugin)*
