@@ -3,18 +3,23 @@
 if (!class_exists('GSPluginUtils')) {
 
 class GSPluginUtils {
-  protected static $SITEURL;
+  protected static $globals = array(), $SITEURL, $PRETTYURLS;
+
+  // Type casting map (for globals)
+  private static $typeCast = array(
+    'bool' => array('PRETTYURLS'),
+  );
 
   // == PUBLIC METHODS ==
   // Get site url
   public static function siteUrl() {
-    if (!static::$SITEURL) {
-      global $SITEURL;
-      static::$SITEURL = $SITEURL;
-    }
-    return static::$SITEURL;
+    return static::getGlobal('SITEURL');
   }
-  
+
+  public static function prettyUrls() {
+    return static::getGlobal('PRETTYURLS');
+  }
+
   // Admin panel url
   public static function adminUrl() {
     return '';
@@ -39,10 +44,41 @@ class GSPluginUtils {
     $url = static::currentUrl();
 
     if ($relative) {
-      $url = str_replace(static::siteUrl(), '', $url);
+      $siteUrl = static::siteUrl();
+
+      if (!static::prettyUrls()) {
+        $siteUrl .= 'index.php?id=';
+      }
+
+      $url = str_replace($siteUrl, '', $url);
     }
 
     return $url;
+  }
+
+  // Setting a global
+  private static function getGlobal($name) {
+    $globalSet = isset(static::$globals[$name]);
+    $globalExists = !$globalSet && isset($GLOBALS[$name]);
+
+    if ($globalExists) {
+      $global = $GLOBALS[$name];
+      // The global might be a SimpleXML object, so we need to ensure that
+      // it is a primitive
+      if (is_a($global, 'SimpleXMLExtended')) {
+        $global = (string) $global;
+
+        foreach (static::$typeCast as $type => $values) {
+          if (in_array($name, $values)) {
+            settype($global, $type);
+          }
+        }
+      }
+
+      static::$globals[$name] = $global;
+    }
+
+    return static::$globals[$name];
   }
 }
 

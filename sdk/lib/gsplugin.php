@@ -145,12 +145,12 @@ class GSPlugin {
     $routes = static::$routes['admin'];
     $url = GSPluginUtils::currentUrl(true);
     
-    /*
+    ///*
     // Sort the routes in order of length (longest to shortest)
     uksort($routes, create_function('$route1, $route2', '
       return strlen($route2) - strlen($route1);
     '));
-    */
+    //*/
     
     // Check to see if there is a suitable selector
     // Pick the first one
@@ -182,8 +182,9 @@ class GSPlugin {
   protected static function indexRouteRun() {
     // We will modify the $data_index object
     self::setIndex();
-    
+
     $requestUrl = GSPluginUtils::currentIndexUrl();
+
     foreach (static::$routes['index'] as $route => $procedure) {
       $valid = false;
       $params = array();

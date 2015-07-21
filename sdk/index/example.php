@@ -1,2 +1,2 @@
-<?php static::setIndexTitle('My shit'); ?>
+<?php static::setIndexTitle('Test homepage'); ?>
 YEAAAH
