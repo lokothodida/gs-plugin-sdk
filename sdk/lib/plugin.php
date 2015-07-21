@@ -23,6 +23,41 @@ class SDK extends GSPlugin {
   
   // Administration Panel
   public static function adminPanel() {
+
+
+
+
+    // Initialization
+    try {
+      GSPluginUtils::mkDir('dummy2');
+      GSPluginUtils::mkFile('dummy2/test', array(
+        'test' => 'example',
+        'yes' => true,
+        'nestedstuff' => array(
+          'more' => 'hehe',
+          'yes' => 'haha',
+          '@attributes' => array('key' => 'value', 'another' => 'val'),
+        ),
+        'items' => array(
+          'item' => array(
+            //array('key' => 'value', 'another' => 'val'),
+            'stuff',
+            'here',
+          ),
+        ),
+        'evenmorenestedstuff' => array(
+          'hehe',
+          'haha',
+          //'@attributes' => array('key' => 'value', 'another' => 'val'),
+        ),
+        //'@attributes' => array('shouldnt work'),
+      ));
+
+      echo GSPluginUI::success('Success!');
+    } catch (Exception $error) {
+      echo GSPluginUI::error($error->getMessage());
+    }
+
     // Headings
     echo GSPluginUI::title(static::i18n('PLUGIN_TITLE'), true);
     echo GSPluginUI::quickNav(array(
