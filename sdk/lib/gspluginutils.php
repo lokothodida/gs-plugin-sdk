@@ -28,7 +28,7 @@ class GSPluginUtils {
   public static function mkDir($dir, $mode = 0755, $recursive = false, $htaccess = true) {
     $directory = GSDATAOTHERPATH . '/'. $dir . '/';
 
-    if (!static::dirExists($directory)) {
+    if (static::dirExists($dir)) {
       return false;
     }
 
