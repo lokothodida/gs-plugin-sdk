@@ -6,6 +6,7 @@ class GSPluginUtils {
   // == CONSTANTS ==
   const EXCEPTION_MKDIR  = 'mkDirErr';
   const EXCEPTION_MKFILE = 'mkFileErr';
+  const EXCEPTION_COPY = 'copyErr';
 
   // == PROPERTIES ==
   protected static $defaults = array(
@@ -50,8 +51,16 @@ class GSPluginUtils {
   }
 
   // Copy a directory in /data/other
-  public static function cpDir() {
-    
+  public static function cpDir($source, $dest) {
+    $source = static::prefixDirectory($source);
+    $dest = static::prefixDirectory($dest);
+    $copy = @copy($source, $dest);
+
+    if (!$copy) {
+      throw new Exception(static::EXCEPTION_COPY);
+    } else {
+      return true;
+    }
   }
 
   public static function dirExists($dir) {
@@ -169,6 +178,17 @@ class GSPluginUtils {
   }
 
   // == PRIVATE METHODS ==
+  // Prefix a directory
+  private static function prefixDirectory($dir) {
+    if (strpos(GSROOTPATH, $dir) === false) {
+      $dir = GSDATAOTHERPATH . '/' . $dir . '/';
+    } else {
+      $dir = $dir . '/';
+    }
+
+    return $dir;
+  }
+
   // Convert array structure to xml
   private static function arrayToXML($array, SimpleXMLExtended &$xml, $root = false) {
     if (!$root) static::arrayToXMLSetAttributes($array, $xml);

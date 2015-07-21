@@ -30,6 +30,7 @@ class SDK extends GSPlugin {
     // Initialization
     try {
       GSPluginUtils::mkDir('dummy2');
+      GSPluginUtils::cpDir('dummy2', 'dummy3');
       GSPluginUtils::mkFile('dummy2/test', array(
         'test' => 'example',
         'yes' => true,

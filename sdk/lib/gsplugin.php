@@ -90,7 +90,7 @@ class GSPlugin {
     static::i18nMerge($info);
     static::register($info, $class);
     static::setupSideBar();
-    static::autoload();
+    static::setupAutoloader();
     static::addIndex();
     static::processHooks();
   }
@@ -227,8 +227,18 @@ class GSPlugin {
     }
   }
   
-  // Register autoloaders
-  protected static function autoload() {
+  // Register autloader
+  private static function setupAutoloader() {
+    spl_autoload_register(array(static::getClass(), 'autoload'));
+  }
+  
+  // Implement autoloader
+  protected static function autoload($class) {
+    $class = strtolower($class);
+    $file = basename(__FILE__) . '/' . $class . '.php';
+    if (file_exists($file)) {
+      include($file);
+    }
   }
   
   // Set the plugin's id
