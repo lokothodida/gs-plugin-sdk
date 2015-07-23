@@ -5,9 +5,36 @@ if (!class_exists('GSUI')) {
 class GSUI {
   // == PROPERTIES ==
   protected $inputProperties = array('name', 'value', 'placeholder', 'disabled', 'hidden', 'type');
-  
+  protected $ckConfig = array();
+
   // == PUBLIC METHODS ==
+  public function __construct() {
+    $this->ckConfig = array(
+      'skin' => 'getsimple',
+      'forcePasteAsPlainText' => true,
+      'language' => 'en',
+      'defaultLanguage' => 'en',
+      'entities' => false,
+      'uiColor' => '#FFFFFF',
+      'height' => '500px',
+      'baseHref' => $GLOBALS['SITEURL'],
+      'tabSpaces' => 10,
+      'filebrowserBrowseUrl' => 'filebrowser.php?type=all',
+      'filebrowserImageBrowseUrl' => 'filebrowser.php?type=images',
+      'filebrowserWindowWidth' => '730',
+      'filebrowserWindowHeight' => '500',
+      'toolbar' => 'basic',
+    );
+  }
+
   // == STATIC UI ==
+  // Header
+  public function header($title, $quicknav = array()) {
+    $titleHTML = $this->title($title, true);
+    $quicknavHTML = $this->quickNav($quicknav);
+    return $titleHTML . $quicknavHTML;
+  }
+
   // Title
   public function title($title, $float = false) {
     $floated = $float ? ' class="floated"' : null;
@@ -77,7 +104,18 @@ class GSUI {
     
     return $table;
   }
-  
+
+  // Link
+  public function link($type, $text, $url, $external = false) {
+    $link = '<a class="';
+    if ($type) {
+      if ($type == 'cancel') $link .= ' cancel ';
+    }
+
+    $link .= '" href="' . $url . '">' . $text . '</a>';
+    return $link;
+  }
+
   // Success message
   public function success($msg, $undo = null) {
     return $this->errorMsg('success', $msg, $undo);
@@ -92,7 +130,13 @@ class GSUI {
   // Text input
   public function input(array $properties) {
     // Build the input
-    $input = '<input class="text" ';
+    $input = '<input ';
+    
+    if ($properties['type'] == 'title') {
+      $input .= 'class="text title" ';
+    } else {
+      $input .= 'class="text" ';
+    }
 
     foreach ($this->inputProperties as $property) {
       if (isset($properties[$property])) {
@@ -118,8 +162,24 @@ class GSUI {
   }
   
   // Rich text area
-  public function richTextarea() {
-    
+  public function richTextarea($config, $link = false) {
+    $output = '';
+    $config['ckconfig'] = $this->ckConfig;
+    $textarea = '<textarea name="' . $config['name'] . '">' . $config['value'] . '</textarea>';
+    $scripts = array();
+    $scripts[] = '<script type="text/javascript" src="template/js/ckeditor/ckeditor.js"></script>';
+    $scripts[] = '
+      <script type="text/javascript">
+        var editor = CKEDITOR.replace(' . json_encode($config['name']) . ', ' . json_encode($config['ckconfig']) . ');
+      </script>';
+
+    $output = $textarea;
+
+    foreach ($scripts as $script) {
+      $output .= $script;
+    }
+
+    return $output;
   }
 
   // Submit line
@@ -134,7 +194,11 @@ class GSUI {
   }
 
   // Submit
-  public function submit(array $properties = array()) {
+  public function submit($properties = array()) {
+    if (!is_array($properties)) {
+      $properties = array('label' => $properties);
+    }
+
     if (!isset($properties['label'])) {
       $properties['label'] = i18n_r('BTN_SAVECHANGES');
     }
@@ -164,10 +228,39 @@ class GSUI {
     return $a;
   }
 
+  // Form
+  public function form($properties) {
+    $form = '<form ';
+
+    if (isset($properties['method'])) {
+      $form .= 'method="' . $properties['method'] . '" ';
+    }
+
+    if (isset($properties['action'])) {
+      $form .= 'action="' . $properties['action'] . '" ';
+    }
+
+    $form .= '>';
+
+    if (isset($properties['content'])) {
+      if (!is_array($properties['content'])) {
+        $properties['content'] = array($properties['content']);
+      }
+
+      foreach ($properties['content'] as $content) {
+        $form .= $content;
+      }
+    }
+
+    $form .= '</form>';
+
+    return $form;
+  }
+
   // Redirect url
   public function redirect($url) {
   }
-  
+
   // Rename url
   public function renameUrl($url) {
     return '

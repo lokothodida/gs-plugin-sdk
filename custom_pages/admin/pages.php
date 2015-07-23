@@ -12,15 +12,25 @@ if (!empty($_POST)) {
 }
 
 // Display the page
-// UI for title
-$title = $ui->title($i18n('VIEW_PAGES'));
+// UI for header
+$header = $ui->header(
+  // Title
+  $plugin->i18n('VIEW_PAGES'),
+  // Navigation
+  array(
+    array(
+      'label' => $plugin->i18n('CREATE'),
+      'url' => $plugin->adminURL('create'),
+    )
+  )
+);
 
 // Get the pages
 $pages = $utils->getFiles($plugin->id());
 
 // We will format the page information into a table
 // Table header
-$header = array($i18n('PAGE'), $i18n('DELETE'));
+$thead = array($plugin->i18n('PAGE'), $plugin->i18n('DELETE'));
 
 // Format the data
 $rows = array();
@@ -29,15 +39,15 @@ foreach ($pages as $filename => $page) {
   $slug = basename($filename, '.xml');
   $rows[] = array(
     // Edit link
-    $ui->link(null, 'edit=' . $slug),
+    $ui->link(null, $slug, $plugin->adminURL('edit=' . $slug)),
     // Delete link
-    $ui->link('delete', 'delete=' . $slug),
+    $ui->link('delete', 'x', $plugin->adminURL('delete=' . $slug)),
   );
 }
 
 // Build table to display the table
-$table = $ui->table($header, $rows);
+$table = $ui->table($thead, $rows);
 
 // Display the results
-echo $title;
+echo $header;
 echo $table;

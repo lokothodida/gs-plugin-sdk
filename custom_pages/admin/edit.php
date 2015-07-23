@@ -17,7 +17,14 @@ if (!empty($_POST)) {
 
 // Display the form
 // UI for title
-$title = $ui->title($i18n('CREATE_PAGE'));
+$title = $ui->title(
+  // Title
+  $i18n('CREATE_PAGE'),
+  // Navigation
+  $nav = array(
+    //'label' => 
+  )
+);
 
 // Get the form
 $action = ''; // form submits to same page

@@ -8,6 +8,7 @@ $fields = array();
 
 // Title field
 $fields['title'] = $ui->input(array(
+  'type' => 'title',
   'name' => 'title',
   'value' => $page['title'],
 ));
@@ -19,7 +20,7 @@ $fields['content'] = $ui->richTextarea(array(
 ));
 
 // Submit (and cancel) button
-$fields['submit'] = $ui->submit($plugin->i18n('BTN_SAVECHANGES'), $plugin->i18n('CANCEL'));
+$fields['submit'] = $ui->submitLine($plugin->i18n('BTN_SAVECHANGES'), null, array('url' => $this->adminURL()));
 
 // Wrap up the fields and button in a form
-$form = $ui->form(array('method' => $post, 'content' => $fields));
+$form = $ui->form(array('method' => 'post', 'action' => $action, 'content' => $fields));

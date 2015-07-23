@@ -5,7 +5,7 @@
 $slug = $utils->slug($_POST['title']);
 
 // Create/save the file
-$utils->mkFile($slug, array(
+var_dump($utils->mkFile($plugin->id() . '/' . $slug, array(
   'title' => $_POST['title'],
   'content' => $_POST['content'],
-), $overwrite = true); // overwrites file if it exists
+), $overwrite = true)); // overwrites file if it exists

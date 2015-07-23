@@ -2,7 +2,7 @@
 
 // 'Create Page' panel
 // UI for title
-$title = $ui->title($plugin->i18n('CREATE_PAGE'));
+$title = $ui->header($plugin->i18n('CREATE_PAGE'));
 
 // Set the default data
 $page = array('title' => null, 'content' => null);

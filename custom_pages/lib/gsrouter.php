@@ -12,7 +12,7 @@ class GSRouter {
   public function add($path, $action) {
     $this->routes[$path] = $action;
   }
-  
+
   public function run() {
     $action = array();
 
@@ -28,7 +28,7 @@ class GSRouter {
           $request = substr($request, strlen($prefix));
         }
       }
-      
+
       if ($route == $request) {
         // Equality
         $valid = true;

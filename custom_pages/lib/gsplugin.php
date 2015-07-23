@@ -4,6 +4,7 @@ if (class_exists('GSPlugin')) return;
 
 class GSPlugin {
   // == PROPERTIES ==
+  protected $urls = array();
   protected $info = array();
   protected $hooks = array();
   protected $lambda = array();
@@ -82,8 +83,10 @@ class GSPlugin {
     $utils = $this->utils;
     $ui = $this->ui;
     $plugin = $this;
+    $currentURL = $utils->currentURL();
+    $request = str_replace($utils->adminURL() . '/load.php?id=' . $this->id(), '', $currentURL);
     $route = new GSRouter(array(
-      'request' => $this->adminURL(true),
+      'request' => $request,
       'path' => $this->path(),
       'prefix' => '&',
     ));
@@ -104,10 +107,17 @@ class GSPlugin {
   }
   
   // Admin url
-  public function adminURL($current = false) {
-    $url = $current ? $this->utils->currentAdminURL() : $this->utils->adminURL();
-    $start = strpos($url, $this->id());
-    return substr($url, $start + strlen($this->id()));
+  // If current = true, gives current admin url
+  // If current is a string, gives url to plugin with the string appended
+  // If current = false, gives base url to admin panel
+  public function adminURL($page = false, $relative = false) {
+    $url = $this->utils->adminURL() . '/load.php?id=' . $this->id();
+    
+    if ($page) {
+      $url = $url . '&' . $page;
+    }
+
+    return $url;
   }
   
   // Index page
