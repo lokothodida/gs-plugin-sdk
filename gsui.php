@@ -6,6 +6,14 @@ if (class_exists('GSUI')) return;
 
 class GSUI {
   // == PUBLIC METHODS ==
+  // Title
+  public function title($content, $floated = false) {
+    return $this->element('h3', array(
+      'class' => $floated ? 'floated' : null,
+    ), $content);
+  }
+
+  // HTML element
   public function element($tag, $attrs = array(), $content = null) {
     $element = '<' . $tag . ' ';
 
