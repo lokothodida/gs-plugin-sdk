@@ -75,7 +75,7 @@ echo $ui->quicknav(array(
 
 ### quicktab
 ```php
-echo $ui->quicknav(array(
+echo $ui->quicktab('tab-container', array(
   // Tabs
   array('label' => 'Tab 1'),
   array('label' => 'Tab 2'),
