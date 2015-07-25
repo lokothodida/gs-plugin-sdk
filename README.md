@@ -109,6 +109,18 @@ echo $ui->section(
 ### form
 ### input
 ### dropdown
+```php
+echo $ui->dropdown(array(
+  // Container
+  'name' => 'items',
+), array(
+  // Values
+  array('value' => 'Item 1'),
+  array('value' => 'Item 2'),
+  array('value' => 'Item 3'),
+));
+```
+
 ### htmleditor
 ```php
 echo $ui->htmleditor(array(
