@@ -28,39 +28,49 @@ in order to simplify the typical problems that arise during [GetSimple plugin](h
 
 # Included Libraries
 ## GSUtils
-
+### SDK_VERSION
+### __construct
 ### mkdir
 ### rmdir
 ### mvdir
 ### copy
 ### mkfile
+### putfile
 ### rmfile
 ### mvfile
 ### getfile
 ### getfiles
+### fileexists
+### iswritable
+### print
 ### slug
 ### translit
 ### clean
 
 ## GSUI
-
+### SDK_VERSION
+### __construct
 ### header
 ### title
 ### quicknav
+### quicktab
 ### parag
 ### leftsec
 ### rightsec
 ### metawindow
+### table
+### anchor
 ### form
 ### input
-### richtexteditor
+### dropdown
+### htmleditor
 ### codeeditor
 ### submit
 ### submitline
 ### footer
 
 ## GSPlugin
-
+### SDK_VERSION
 ### __construct
 ### id
 ### author
@@ -71,4 +81,5 @@ in order to simplify the typical problems that arise during [GetSimple plugin](h
 ### filter
 ### admin
 ### index
+### i18n
 ### init
