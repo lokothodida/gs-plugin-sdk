@@ -6,6 +6,11 @@ if (class_exists('GSUI')) return;
 
 class GSUI {
   // == PUBLIC METHODS ==
+  // Header (title + quicknav)
+  public function header($title, $quicknav) {
+    return $this->title($title, true) . "\n" . $this->quicknav($quicknav);
+  }
+
   // Title
   public function title($content, $floated = false) {
     return $this->element('h3', array(
