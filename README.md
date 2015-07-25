@@ -30,8 +30,12 @@ in order to simplify the typical problems that arise during [GetSimple plugin](h
 ## GSUtils
 
 ### mkdir
+### rmdir
+### mvdir
 ### copy
 ### mkfile
+### rmfile
+### mvfile
 ### getfile
 ### getfiles
 ### slug
@@ -41,16 +45,27 @@ in order to simplify the typical problems that arise during [GetSimple plugin](h
 ## GSUI
 
 ### header
+### title
+### quicknav
+### parag
+### leftsec
+### rightsec
+### metawindow
 ### form
 ### input
 ### richtexteditor
 ### codeeditor
 ### submit
+### submitline
 ### footer
 
 ## GSPlugin
 
 ### __construct
+### id
+### author
+### version
+### tab
 ### sidebar
 ### hook
 ### filter
