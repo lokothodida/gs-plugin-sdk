@@ -105,9 +105,68 @@ echo $ui->section(
 ### rightsec
 ### metawindow
 ### table
+```php
+// Normal table
+echo $ui->table(array(
+  // Header
+  'header' => array('Items', 'Year'),
+  // Rows
+  'rows' => array(
+    array('Item 1', '2014'),
+    array('Item 2', '2015'),
+    array('Item 3', '2013')
+  ),
+));
+
+// Editable table
+echo $ui->table(array(
+  'type' => 'edit',
+  // Header
+  'header' => array('Items', 'Year'),
+  // Rows
+  'rows' => array(
+    array('Item 1', '2014'),
+    array('Item 2', '2015'),
+    array('Item 3', '2013')
+  ),
+));
+```
+
 ### anchor
+```php
+// Cancel button
+echo $ui->anchor('cancel', array(
+  'label' => Cancel',
+  'href' => 'http://.../',
+));
+```
+
 ### form
 ### input
+```php
+// Text field
+echo $ui->input(array(
+  'label' => 'Field',
+  'name' => 'field',
+  'value' => 'Initial value',
+));
+
+// Title text field
+echo $ui->input(array(
+  'type' => 'title',
+  'name' => 'title',
+  'value' => 'Your Title Here',
+));
+
+// Checkbox
+echo $ui->input(array(
+  'label' => 'Enable HTML Editor?',
+  'type' => 'check',
+  'name' => 'enableeditor',
+  'value' => true,
+));
+```
+
 ### dropdown
 ```php
 echo $ui->dropdown(array(
