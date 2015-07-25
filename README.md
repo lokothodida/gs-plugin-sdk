@@ -104,6 +104,10 @@ echo $ui->section(
 ### leftsec
 ### rightsec
 ### metawindow
+```php
+echo $ui->metawindow('Left content', 'Right content');
+```
+
 ### table
 ```php
 // Normal table
@@ -142,6 +146,14 @@ echo $ui->anchor('cancel', array(
 ```
 
 ### form
+```php
+echo $ui->form(array(
+  'method' => 'post',
+  'action' => 'path/to/script.php',
+  'content' => 'Form content',
+));
+```
+
 ### input
 ```php
 // Text field
@@ -205,6 +217,13 @@ echo $ui->codeeditor(array(
 ### submit
 ### submitline
 ### footer
+### element
+```php
+echo $ui->element('div', array(
+  'class' => 'class1 class2',
+  'id' => 'yourdiv',
+), 'Content');
+```
 
 ## GSPlugin
 ### SDK_VERSION
