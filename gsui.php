@@ -113,6 +113,37 @@ class GSUI {
     ));
   }
 
+  // Table
+  public function table($attrs, $header, $rows) {
+    $heads = $this->tr('th', array(), $header);
+    $thead = $this->element('thead', array(), $heads);
+
+    // Format rows
+    $body = array();
+    foreach ($rows as $row) {
+      if (is_array($row)) {
+        $body[] = $this->tr('td', array(), $row);
+      } else {
+        $body[] = (string) $row;
+      }
+    }
+
+    $tbody = $this->element('tbody', array(), $body);
+
+    return $this->element('table', $attrs, array($thead, $tbody));
+  }
+
+  // Table row
+  public function tr($type = 'td', $attrs, $cols) {
+    $cells = array();
+
+    foreach ($cols as $col) {
+      $cells[] = $this->element($type, array(), $col);
+    }
+
+    return $this->element('tr', $attrs, $cells);
+  }
+
   // HTML element
   public function element($tag, $attrs = array(), $content = ' ') {
     $element = '<' . $tag . ' ';
