@@ -103,7 +103,16 @@ class GSUI {
   public function rightsec($content) {
     return $this->element('div', array('class' => 'rightsec'), $content);
   }
-  
+
+  // Metawindow
+  public function metawindow($left, $right) {
+    return $this->element('div', array('id' => 'metadata_window'), array(
+      $this->element('div', array('class' => 'leftopt'),  $left),
+      $this->element('div', array('class' => 'rightopt'), $right),
+      $this->element('div', array('class' => 'clear')),
+    ));
+  }
+
   // HTML element
   public function element($tag, $attrs = array(), $content = ' ') {
     $element = '<' . $tag . ' ';
