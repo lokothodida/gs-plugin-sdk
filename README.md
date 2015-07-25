@@ -15,4 +15,45 @@ in order to simplify the typical problems that arise during [GetSimple plugin](h
 * Building UI elements consistent with administration panel between versions
 
 # Getting Started
-Head over to the [wiki](https://github.com/lokothodida/gs-plugin-sdk/wiki).
+## From scratch
+* Download the Hello World plugin example
+* Rename the `hello_world.php` file and `hello_world/` folder
+* You now have a ready-built plugin with the SDK library included
+
+## From an existing plugin
+* Create a /lib/ directory in your plugin's folder
+* Download the `gsutils.php`, `gsui.php` and `gsplugin.php` files from this repository and put them in the lib directory
+* `include` those files before your plugin is registered
+* You can now use these classes in your plugin
+
+# Included Libraries
+## GSUtils
+
+### mkdir
+### copy
+### mkfile
+### getfile
+### getfiles
+### slug
+### translit
+### clean
+
+## GSUI
+
+### header
+### form
+### input
+### richtexteditor
+### codeeditor
+### submit
+### footer
+
+## GSPlugin
+
+### __construct
+### sidebar
+### hook
+### filter
+### admin
+### index
+### init
