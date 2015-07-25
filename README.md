@@ -51,10 +51,56 @@ in order to simplify the typical problems that arise during [GetSimple plugin](h
 ### SDK_VERSION
 ### __construct
 ### header
+```php
+echo $ui->header('Admin Page Title', array(
+  // Navigation links
+  array('label' => 'Page 1', 'href' => 'page1'),
+  array('label' => 'Page 2', 'href' => 'page2'),
+  array('label' => 'Page 3', 'href' => 'page3'),
+));
+```
 ### title
+```php
+echo $ui->title('Admin Panel Title');
+```
+
 ### quicknav
+```php
+echo $ui->quicknav(array(
+  array('label' => 'Page 1', 'href' => 'page1'),
+  array('label' => 'Page 2', 'href' => 'page2'),
+  array('label' => 'Page 3', 'href' => 'page3'),
+));
+```
+
 ### quicktab
+```php
+echo $ui->quicknav(array(
+  // Tabs
+  array('label' => 'Tab 1'),
+  array('label' => 'Tab 2'),
+  array('label' => 'Tab 3'),
+), array(
+  // Content
+  'Page 1',
+  'Page 2',
+  'Page 3',
+));
+```
+
 ### parag
+```php
+echo $ui->parag('A paragraph');
+```
+### section
+```php
+echo $ui->section(
+  // Left section (can be given as an array)
+  'Left section content',
+  // Right section (can be given as an array)
+  'Right section content',
+);
+```
 ### leftsec
 ### rightsec
 ### metawindow
@@ -64,7 +110,27 @@ in order to simplify the typical problems that arise during [GetSimple plugin](h
 ### input
 ### dropdown
 ### htmleditor
+```php
+echo $ui->htmleditor(array(
+  'name' => 'content',
+  'value' => 'Initial content for the editor',
+  'config' => array(
+    // CKEditor config
+  ),
+));
+```
+
 ### codeeditor
+```php
+echo $ui->codeeditor(array(
+  'name' => 'code',
+  'value' => 'Your initial code',
+  'config' => array(
+    // CodeMirror config
+  )
+));
+```
+
 ### submit
 ### submitline
 ### footer
@@ -79,6 +145,8 @@ in order to simplify the typical problems that arise during [GetSimple plugin](h
 ### sidebar
 ### hook
 ### filter
+### script
+### style
 ### admin
 ### index
 ### i18n
