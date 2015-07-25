@@ -40,6 +40,51 @@ class GSUI {
     ), $links);
   }
 
+  // Quick tabs
+  public function quicktab($attrs, $nav, $contents) {
+    if (!is_array($attrs)) {
+      $attrs = array('id' => $attrs);
+    }
+
+    $quicknav   = $this->quicknav($nav);
+    $containers = array();
+
+    foreach ($contents as $content) {
+      $containers[] = $this->element('div', array('class' => 'page'), $content);
+    }
+
+    $containers = implode("\n", $containers);
+    $script = '
+      <script>
+        $(function() {
+          var $tabcontainer = $(' . json_encode('#' . $attrs['id']) . ');
+          var $tabs = $tabcontainer.find(".edit-nav a");
+          var $pages = $tabcontainer.find(".page");
+          var totalPages = $pages.length;
+          
+          // Hide all pages (except the first)
+          $pages.slice(1).hide();
+
+          // Bind click event to quicknav
+          $tabs.each(function(i, tab) {
+            var $tab = $(tab);
+            $tab.click(function() {
+              $tabs.removeClass("current");
+              $tab.addClass("current");
+              $pages.hide();
+              var idx = (totalPages - 1) - i;
+              $($pages[idx]).show();
+              return false;
+            });
+          });
+        });
+      </script>
+    ';
+
+    $wrapper = $this->element('div', $attrs, array($quicknav, $containers, $script));
+    return $wrapper;
+  }
+
   // HTML element
   public function element($tag, $attrs = array(), $content = null) {
     $element = '<' . $tag . ' ';
