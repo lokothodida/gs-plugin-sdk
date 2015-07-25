@@ -85,12 +85,31 @@ class GSUI {
     return $wrapper;
   }
 
+  // Section
+  public function section($left, $right) {
+    return implode("\n", array(
+      $this->leftsec($left),
+      $this->rightsec($right),
+      $this->element('div', array('class' => 'clear')),
+    ));
+  }
+
+  // Left section
+  public function leftsec($content) {
+    return $this->element('div', array('class' => 'leftsec'), $content);
+  }
+
+  // Right section
+  public function rightsec($content) {
+    return $this->element('div', array('class' => 'rightsec'), $content);
+  }
+  
   // HTML element
-  public function element($tag, $attrs = array(), $content = null) {
+  public function element($tag, $attrs = array(), $content = ' ') {
     $element = '<' . $tag . ' ';
 
     foreach ($attrs as $attr => $val) {
-      $element .= $attr . '="' . $val . '"';
+      $element .= $attr . '="' . $val . '" ';
     }
 
     if (!$content) {
