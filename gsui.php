@@ -13,6 +13,28 @@ class GSUI {
     ), $content);
   }
 
+  // Quick navigation
+  public function quicknav($nav) {
+    $links = array();
+    $count = count($nav);
+    $default = array(
+      'href' => '',
+      'class' => '',
+    );
+
+    // Loop through $nav in reverse order
+    for ($i = $count-1; $i >= 0; $i--) {
+      $link = array_merge($default, $nav[$i]);
+      $label = $link['label'];
+      unset($link['label']);
+      $links[] = $this->element('a', $link, $label);
+    }
+    
+    return $this->element('div', array(
+      'class' => 'edit-nav clearfix',
+    ), $links);
+  }
+
   // HTML element
   public function element($tag, $attrs = array(), $content = null) {
     $element = '<' . $tag . ' ';
