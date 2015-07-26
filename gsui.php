@@ -127,6 +127,18 @@ class GSUI {
     return $wrapper;
   }
 
+  // Anchor
+  public function anchor($type, $attrs) {
+    $attrs = array_merge(array(
+      'class' => null,
+      'label' => null,
+    ), $attrs);
+
+    $attrs['class'] .= ' ' . $type;
+
+    return $this->element('a', $attrs, $attrs['label']);
+  }
+
   // Section
   public function section($left, $right) {
     return implode("\n", array(
@@ -321,6 +333,19 @@ class GSUI {
     ), $params);
 
     return $this->element('input', $params);
+  }
+
+  // Submit line
+  public function submitline($submit = array(), $or = null, $cancel = array()) {
+    $cancel = array_merge(array(
+      'label' => i18n_r('CANCEL'),
+    ), $cancel);
+
+    return $this->element('p', array('id' => 'submit_line'), array(
+      $this->submit($submit),
+      $or ? $or : '&nbsp;&nbsp;' . i18n_r('OR') . '&nbsp;&nbsp;',
+      $this->anchor('cancel', $cancel),
+    ));
   }
 
   // Form
