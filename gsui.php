@@ -30,6 +30,17 @@ class GSUI {
       'filebrowserWindowHeight' => '500',
       'toolbar' => 'basic',
     );
+
+    $this->defaults['codemirror'] = array(
+      'lineNumbers' => true,
+      'matchBrackets' => true,
+      'indentUnit' => 4,
+      'indentWithTabs' => true,
+      'enterMode' => 'keep',
+      'mode' => 'application/x-httpd-php',
+      'tabMode' => "shift",
+      'theme' => 'default',
+    );
   }
 
   // Header (title + quicknav)
@@ -272,6 +283,32 @@ class GSUI {
     ');
 
     return implode("\n", array($this->parag($textarea), $ckeditor, $script));
+  }
+
+  // Code Editor (CodeMirror)
+  public function codeeditor($params) {
+    $params = array_merge(array(
+      'name' => 'code',
+      'config' => array(),
+      'force' => true,
+    ), $params);
+
+    $params['config'] = array_merge($this->defaults['codemirror'], $params['config']);
+
+    $attrs = $params;
+    if (!isset($attrs['id'])) {
+      $attrs['id'] = $attrs['name'];
+    }
+
+    unset($attrs['config']);
+
+    $textarea = $this->textarea($attrs, $params['value']);
+
+    $script = $this->script('
+      CodeMirror.fromTextArea(document.getElementById(' . json_encode($attrs['name']) . '), ' . json_encode($params['config']) . ');
+    ');
+
+    return implode("\n", array($this->parag($textarea), $script));
   }
 
   // Form
