@@ -144,6 +144,54 @@ class GSUI {
     return $this->element('tr', $attrs, $cells);
   }
 
+  // Input
+  public function input($params) {
+    // Defaults
+    $params = array_merge(array(
+      'type' => 'text',
+      'class' => '',
+    ), $params);
+
+    // Label
+    if (isset($params['label'])) {
+      $label = $this->element('label', array(), $params['label']);
+      unset($params['label']);
+    } else {
+      $label = null;
+    }
+
+    // Type
+    if ($params['type'] == 'title') {
+      $params['class'] .= ' text title';
+      unset($params['type']);
+    } elseif($params['type'] == 'hidden') {
+      // ...
+    } elseif ($params['type'] == 'checkbox') {
+      if (!empty($params['value'])) $params['checked'] = true;
+    } else {
+      $params['class'] .= ' text';
+      unset($params['type']);
+    }
+
+    $field = $this->element('input', $params);
+
+    return $this->parag(array($label, $field));
+  }
+
+  // Form
+  public function form($params) {
+    $params = array_merge(array(
+      'method' => null,
+      'action' => null,
+      'content' => null,
+    ), $params);
+
+    $content = $params['content'];
+    unset($params['content']);
+
+    return $this->element('form', $params, $content);
+  }
+
   // HTML element
   public function element($tag, $attrs = array(), $content = ' ') {
     $element = '<' . $tag . ' ';
