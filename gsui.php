@@ -178,6 +178,34 @@ class GSUI {
     return $this->parag(array($label, $field));
   }
 
+  // Dropdown list
+  public function dropdown($attrs, $values) {
+    $options = array();
+
+    $attrs = array_merge(array(
+      'class' => 'text',
+    ), $attrs);
+    
+    foreach ($values as $value) {
+      if (!isset($value['label'])) {
+        $value['label'] = $value['value'];
+      }
+      $label = $value['label'];
+      unset($value['label']);
+      $options[] = $this->element('option', $value, $label);
+    }
+
+    $select = $this->element('select', $attrs, $options);
+
+    if (isset($attrs['label'])) {
+      $label = $this->element('label', array(), $attrs['label']);
+    } else {
+      $label = '';
+    }
+
+    return $this->parag(array($label, $select));
+  }
+
   // Form
   public function form($params) {
     $params = array_merge(array(
