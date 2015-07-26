@@ -5,7 +5,33 @@
 if (class_exists('GSUI')) return;
 
 class GSUI {
+  // == PROPERTIES ==
+  protected $defaults = array(
+    'ckeditor' => array(),
+    'codemirror' => array()
+  );
+
   // == PUBLIC METHODS ==
+  // Constructor
+  public function __construct($params = array()) {
+    // TODO: Fix ckeditor defaults (lang and toolbar)
+    $this->defaults['ckeditor'] = array(
+      'skin' => 'getsimple',
+      'forcePasteAsPlainText' => true,
+      'language' => 'en',
+      'defaultLanguage' => 'en',
+      'uiColor' => '#FFFFFF',
+      'height' => '500px',
+      'baseHref' => $GLOBALS['SITEURL'],
+      'tabSpaces' => 10,
+      'filebrowserBrowseUrl' => 'filebrowser.php?type=all',
+      'filebrowserImageBrowseUrl' => 'filebrowser.php?type=images',
+      'filebrowserWindowWidth' => '730',
+      'filebrowserWindowHeight' => '500',
+      'toolbar' => 'basic',
+    );
+  }
+
   // Header (title + quicknav)
   public function header($title, $quicknav) {
     return $this->title($title, true) . "\n" . $this->quicknav($quicknav);
@@ -16,6 +42,11 @@ class GSUI {
     return $this->element('h3', array(
       'class' => $floated ? 'floated' : null,
     ), $content);
+  }
+
+  // Paragraph
+  public function parag($content) {
+    return $this->element('p', array(), $content);
   }
 
   // Quick navigation
@@ -206,6 +237,43 @@ class GSUI {
     return $this->parag(array($label, $select));
   }
 
+  // Textarea
+  public function textarea($attrs, $content) {
+    return $this->element('textarea', $attrs, $content);
+  }
+
+  // HTML Editor (CKEditor)
+  public function htmleditor($params) {
+    $params = array_merge(array(
+      'name' => 'post-content',
+      'config' => array(),
+      'force' => true,
+    ), $params);
+
+    $params['config'] = array_merge($this->defaults['ckeditor'], $params['config']);
+
+    $attrs = $params;
+    if (!isset($attrs['id'])) {
+      $attrs['id'] = $attrs['name'];
+    }
+
+    unset($attrs['config']);
+
+    $textarea = $this->textarea($attrs, $params['value']);
+
+    if ($params['force']) {
+      $ckeditor = $this->script(array('src' => 'template/js/ckeditor/ckeditor.js'));
+    } else {
+      $ckeditor = null;
+    }
+
+    $script = $this->script('
+      CKEDITOR.replace(' . json_encode($attrs['name']) . ', ' . json_encode($params['config']) .');
+    ');
+
+    return implode("\n", array($this->parag($textarea), $ckeditor, $script));
+  }
+
   // Form
   public function form($params) {
     $params = array_merge(array(
@@ -220,6 +288,21 @@ class GSUI {
     return $this->element('form', $params, $content);
   }
 
+  // Script
+  public function script($contents) {
+    $defaults = array(
+      'type' => 'text/javascript',
+    );
+    if (is_string($contents)) {
+      $script = $this->element('script', $defaults, $contents);
+    } else {
+      $attrs = array_merge($defaults, $contents);
+      $script = $this->element('script', $attrs);
+    }
+
+    return $script;
+  }
+
   // HTML element
   public function element($tag, $attrs = array(), $content = ' ') {
     $element = '<' . $tag . ' ';
@@ -229,7 +312,7 @@ class GSUI {
     }
 
     if (!$content) {
-      $element .= '/>';
+      $element .= ' />';
     } else {
       if (is_array($content)) {
         $content = implode("\n", $content);
