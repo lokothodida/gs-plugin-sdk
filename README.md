@@ -215,6 +215,13 @@ echo $ui->codeeditor(array(
 ```
 
 ### submit
+```php
+echo $ui->submit(array(
+  'name' => 'submit',
+  'value' => 'Submit',
+));
+```
+
 ### submitline
 ### footer
 ### element

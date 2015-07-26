@@ -311,6 +311,18 @@ class GSUI {
     return implode("\n", array($this->parag($textarea), $script));
   }
 
+  // Submit
+  public function submit($params = array()) {
+    $params = array_merge(array(
+      'name' => 'submitted',
+      'value' => i18n_r('BTN_SAVECHANGES'),
+      'type' => 'submit',
+      'class' => 'submit',
+    ), $params);
+
+    return $this->element('input', $params);
+  }
+
   // Form
   public function form($params) {
     $params = array_merge(array(
