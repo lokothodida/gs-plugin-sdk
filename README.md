@@ -46,13 +46,18 @@ This library is meant to handle general utility-based problems in plugin develop
 ### __construct
 
 ```php
-$utils = new GSUtils(array(
+// == CONSTRUCTOR PARAMETERS ==
+// $params['basepath']  base path for operations; default is GSDATAOTHERPATH
+```
 
+```php
+$utils = new GSUtils(array(
+  // TODO
 ));
 ```
 
 ### mkdir
-Makes a directory (by default in /data/other) and initializes it with an htaccess file. Throws an exception
+Makes a directory and initializes it with an htaccess file. Throws an exception
 if the directory could not be made.
 
 ```php
