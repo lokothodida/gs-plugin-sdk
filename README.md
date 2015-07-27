@@ -44,8 +44,33 @@ This library is meant to handle general utility-based problems in plugin develop
 
 ### SDK_VERSION
 ### __construct
+
+```php
+$utils = new GSUtils(array(
+
+));
+```
+
 ### mkdir
+Makes a directory (by default in /data/other) and initializes it with an htaccess file. Throws an exception
+if the directory could not be made.
+
+```php
+try {
+  $utils->mkdir('yourdir');
+} catch (Exception $error) {
+  echo 'Could not create directory';
+}
+```
+
 ### rmdir
+Removes a directory (by default in /data/other). If `$force` is set to true, all
+files and directories inside will be removed. Throws an exception if there was
+an error deleting the directory.
+
+```php
+```
+
 ### mvdir
 ### copy
 ### mkfile
