@@ -371,6 +371,48 @@ $plugin->admin('/edit=.*/', 'backend/edit.php');
 ```
 
 ### index
+Runs code on the front-end of your site. This is done to implement "custom page"
+functionality (e.g. creating a blog plugin).
+
+#### `index($url, $function)`
+```php
+// == GLOBAL FUNCTION EXAMPLE ==
+function your_plugin_index($page) {
+  echo 'You are on the front page of your plugin!';
+}
+
+// ...
+$plugin->index('your_plugin', 'your_plugin_index');
+```
+
+```php
+// == CLASS METHOD EXAMPLE ==
+class YourPlugin {
+  // ...
+
+  function index($page) {
+    echo 'You are on the front page of your plugin!';
+  }
+
+  // ...
+}
+
+// ...
+$yp = new YourPlugin();
+$plugin->index('your_plugin', array($yp, 'index'));
+```
+
+```php
+// == SCRIPT EXAMPLE ==
+// your_plugin/frontend/index.php
+echo 'You are on the front page of your plugin!';
+```
+
+```php
+// ...
+$plugin->index('your_plugin', 'frontend/index.php');
+```
+
 ### i18n
 Returns and internationalized hash according to the languages you've defined
 for your plugin (and if a hash doesn't exist, it will search for a built in one
@@ -380,8 +422,8 @@ echo $plugin->i18n('PLUGIN_TITLE');
 ```
 
 ### autoload
-Adds an autoloader to be registered when the plugin is initialized. Allows
-classes to be `include`d on the fly.
+Adds an autoloader to be registered when the plugin is initialized. Allows you
+to `include` classes on fly.
 #### `autoload($function)`
 ##### Global function
 
