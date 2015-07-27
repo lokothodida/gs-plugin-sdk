@@ -329,7 +329,7 @@ echo 'The plugin website is ' . $plugin->website();
 ```
 
 ### path
-Get the canonical path to the plugin folder
+Get the canonical path to your plugin's folder
 
 ```php
 include $plugin->path() . 'somefile.php';
