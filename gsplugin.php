@@ -128,7 +128,7 @@ class GSPlugin {
     $this->filters[] = array($name, $fn);
   }
 
-  // Script
+  // Register and queue script
   public function script($params = array()) {
     $params = array_merge(array(
       'id' => null,
@@ -145,7 +145,27 @@ class GSPlugin {
     $footer = $params['footer'];
     $where = $params['where'];
 
-    $this->stylesheet[] = array($id, $src, $version, $footer, $where);
+    $this->javascript[] = array($id, $src, $version, $footer, $where);
+  }
+
+  // Register and queue style
+  public function style($params = array()) {
+    $params = array_merge(array(
+      'id' => null,
+      'href' => null,
+      'baseurl' => $GLOBALS['SITEURL'] . $GLOBALS['GSADMIN'] . '/',
+      'version' => '0.1',
+      'where' => GSBACK,
+      'media' => null,
+    ), $params);
+
+    $id = $params['id'];
+    $href = $params['baseurl'] . $params['href'];
+    $version = $params['version'];
+    $media = $params['media'];
+    $where = $params['where'];
+
+    $this->stylesheet[] = array($id, $href, $version, $media, $where);
   }
 
   // Initialize the plugin
@@ -235,9 +255,17 @@ class GSPlugin {
 
   protected function processStylesheet() {
     foreach ($this->stylesheet as $stylesheet) {
-      list($id, $src, $version, $footer, $where) = $stylesheet;
-      register_style($id, $src, $version, $footer);
+      list($id, $src, $version, $media, $where) = $stylesheet;
+      register_style($id, $src, $version, $media);
       queue_style($id, $where);
+    }
+  }
+
+  protected function processJavascript() {
+    foreach ($this->javascript as $javascript) {
+      list($id, $src, $version, $footer, $where) = $javascript;
+      register_script($id, $src, $version, $footer);
+      queue_script($id, $where);
     }
   }
 
