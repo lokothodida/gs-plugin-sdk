@@ -413,8 +413,36 @@ $plugin->filter('content', 'frontend/content.php');
 ### script
 Register a Javascript file to be loaded
 
+##### `script($params)`
+
+```php
+// == PARAMETERS==
+// $params['id']      unique id for the script
+// $params['src']     script source
+// $params['baseurl'] base url for script; defaults to your plugin folder
+// $params['version'] script version
+// $params['where']   where to load: GSFRONT, GSBACK or GSBOTH
+// $params['footer']  true to load script in footer
+```
+
+```php
+$plugin->script(array(
+  'id' => 'your_plugin_script',
+  'src'   => 'js/script.js',
+  'where' => GSBOTH,
+));
+```
+
 ### style
 Register a CSS sheet to be loaded
+
+```php
+$plugin->style(array(
+  'id' => 'your_plugin_style',
+  'src' => 'css/style.css,
+  'where' => GSFRONT,
+));
+```
 
 ### admin
 Load the administration panel for your plugin
