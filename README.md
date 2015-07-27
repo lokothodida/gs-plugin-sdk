@@ -267,6 +267,7 @@ if (GSPlugin::SDK_VERSION <= 0.1) {
 Instantiate the plugin wrapper with data about the plugin.
 
 #### `__construct($params)`
+
     ```php
     // == CONSTRUCTOR PARAMETERS ==
     // $params['id']      (string)         plugin id (normally the plugin folder)
@@ -276,7 +277,7 @@ Instantiate the plugin wrapper with data about the plugin.
     // $params['tab']     (string)         main plugin tab
     // $params['lang']    (string)         default language
     // $params['deps']    (array (string)) plugin ids of plugins that need to be
-    //                                     installed for this plugin to work
+    //                                     installed for this plugin to load
     ```
 
 ```php
@@ -334,7 +335,8 @@ $plugin->sidebar('My Plugin Sidebar Link');
 
 ### hook
 Register a plugin hook
-#### `hook($name, $callback, $arguments)`
+
+#### `hook($name, $callback[, $callbackargs])`
 
 ```php
 // == GLOBAL FUNCTION EXAMPLE ==
@@ -370,10 +372,8 @@ $plugin->hook('theme-footer', array($yp, 'footer'));
 // == SCRIPT EXAMPLE ==
 // your_plugin/frontend/footer.php
 echo 'This will be output in the theme footer';
-```
 
-```php
-// ...
+// Registration file:
 $plugin->hook('theme-footer', 'frontend/footer.php');
 ```
 
@@ -517,10 +517,8 @@ $plugin->admin(array($yp, 'admin'));
 // == SCRIPT EXAMPLE ==
 // your_plugin/backend/admin.php
 echo 'This is your admin panel';
-```
 
-```php
-// ...
+// In your registration file:
 $plugin->admin('backend/admin.php');
 ```
 
@@ -567,15 +565,12 @@ $plugin->admin('/edit=.*/', array($yp, 'editPage'));
 // == SCRIPT EXAMPLE ==
 // your_plugin/backend/create.php
 echo 'This is the create page';
-```
 
-```php
 // your_plguin/backend/edit.php
 $edit = $exports['matches'][0];
 echo 'This is the edit page for ' . $edit;
-```
 
-```php
+// Registration file:
 $plugin->admin('create',    'backend/create.php');
 $plugin->admin('/edit=.*/', 'backend/edit.php');
 ```
@@ -620,10 +615,20 @@ class YourPlugin {
   // ...
 
   public function indexPage($exports) {
+    // Page title
+    $page = $exports['page'];
+    $page->title = 'Your Plugin Main Page';
+
+    // Page contents
     echo 'You are on the front page of your plugin!';
   }
 
   public function fooPage($exports) {
+    // Page title
+    $page = $exports['page'];
+    $page->title = 'Your Plugin Foo Page';
+
+    // Page contents
     $bar = $exports['matches'][0];
     echo 'You are on the foo/' . $bar . ' page of your plugin!';
   }
@@ -642,10 +647,19 @@ $plugin->index('/your-plugin/foo/(.*)', array($yp, 'fooPage'));
 ```php
 // == SCRIPT EXAMPLE ==
 // your_plugin/frontend/index.php
+// Page title
+$page = $exports['page'];
+$page->title = 'Your Plugin Main Page';
+
+// Page contents
 echo 'You are on the front page of your plugin!';
 
-// ...
 // your_plugin/frontend/foo.php
+// Page title
+$page = $exports['page'];
+$page->title = 'Your Plugin Foo Page';
+
+// Page contents
 $bar = $exports['matches'][0];
 echo 'You are on the foo/' . $bar . ' page of your plugin!';
 
