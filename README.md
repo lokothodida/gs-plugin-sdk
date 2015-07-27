@@ -312,6 +312,48 @@ Register a Javascript file to be loaded
 Register a CSS sheet to be loaded
 
 ### admin
+Load the administration panel for your plugin
+#### admin($function)
+Execute a function when your plugin's admin page is accessed
+```php
+// Global function example
+function your_plugin_admin() {
+  // ...
+}
+
+$plugin->admin('your_plugin_admin');
+```
+
+```php
+// Class method example
+class YourPlugin {
+  function admin() {
+    // ...
+  }
+}
+
+// ...
+$obj = new YourPlugin();
+$plugin->admin(array($obj, 'admin'));
+```
+
+#### admin($script)
+Execute a script when your plugin's admin page is accessed
+```php
+// Execute your_plugin/backend/admin.php when your plugin is accessed
+$plugin->admin('backend/admin.php');
+```
+
+#### admin($url, $action);
+Execute the `$action` (`function` or `script`) when the admin's url resembles the `$url`
+```php
+// Load backend/create.php when in your_plugin&create
+$plugin->admin('create', 'backend/create.php');
+
+// Load backend/edit.php when in your_plugin&edit=[something]
+$plugin->admin('/edit=.*/', 'backend/edit.php');
+```
+
 ### index
 ### i18n
 ### autoload
