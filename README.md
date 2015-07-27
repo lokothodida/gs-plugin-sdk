@@ -311,12 +311,58 @@ $plugin->sidebar('My Plugin Sidebar Link');
 
 ### hook
 Register a plugin hook
-#### `hook($name, $function, $arguments)`
-#### `hook($name, array($object, $method), $arguments)`
-#### `hook($name, $script)`
+#### `hook($name, $callback, $arguments)`
 
-### createhook
-Create a plugin hook (for other developers to use)
+```php
+// == GLOBAL FUNCTION EXAMPLE ==
+function your_plugin_footer() {
+  echo 'This will be output in the theme footer';
+}
+
+// ...
+
+$plugin->hook('theme-footer', 'your_plugin_footer');
+```
+
+```php
+// == CLASS METHOD EXAMPLE ==
+class YourPlugin {
+  // ...
+
+  public function footer() {
+    echo 'This will be output in the theme footer';
+  }
+
+  // ...
+}
+
+// ...
+$yp = new YourPlugin(/* params */);
+
+// ...
+$plugin->hook('theme-footer', array($yp, 'footer'));
+```
+
+```php
+// == SCRIPT EXAMPLE ==
+// your_plugin/frontend/footer.php
+echo 'This will be output in the theme footer';
+```
+
+```php
+// ...
+$plugin->hook('theme-footer', 'frontend/footer.php');
+```
+
+### trigger
+Trigger a plugin hook action. Use this to allow other plugin authors to run actions
+when your plugin has done something.
+
+```php
+// After performing some action...
+
+$plugin->trigger('your-hook-name');
+```
 
 ### filter
 Register a plugin filter
