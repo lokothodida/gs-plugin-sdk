@@ -503,14 +503,16 @@ $plugin->admin('backend/admin.php');
 
 #### `admin($url, $callback)`
 Execute the `$function` when the admin's url resembles the `$url`.
+
 * The `$callback` takes an `(array) $exports` parameter, which has a collection of
 variables that are imported into the scope of your function.
 * `$url` can be a normal string or a Regular Expression. If it is a RegEx, the
 `matches` will be be available as an array on `$exports`.
+
     ```php
     // == EXPORTS PARAMETERS ==
-    // $exports['plugin']   your plugin instance
-    // $exports['matches']  matches made on $url (if it was a RegEx)
+    // $exports['plugin']   (GSPlugin) your plugin instance
+    // $exports['matches']  (array)    matches made on $url (if it was a RegEx)
     ```
 
 ```php
@@ -560,9 +562,22 @@ Runs code on the front-end of your site. This is done to implement "custom page"
 functionality (e.g. creating a blog plugin).
 
 #### `index($url, $function)`
+
+* The `$callback` takes an `(array) $exports` parameter, which has a collection of
+variables that are imported into the scope of your function.
+* `$url` can be a normal string or a Regular Expression. If it is a RegEx, the
+`matches` will be be available as an array on `$exports`.
+
+    ```php
+    // == EXPORTS PARAMETERS ==
+    // $exports['plugin']   (GSPlugin) your plugin instance
+    // $exports['matches']  (array)    matches made on $url (if it was a RegEx)
+    // $exports['page']     (object)   object with data about the current page
+    ```
+
 ```php
 // == GLOBAL FUNCTION EXAMPLE ==
-function your_plugin_index($page) {
+function your_plugin_index($exports) {
   echo 'You are on the front page of your plugin!';
 }
 
@@ -575,8 +590,13 @@ $plugin->index('your_plugin', 'your_plugin_index');
 class YourPlugin {
   // ...
 
-  function index($page) {
+  function indexPage($exports) {
     echo 'You are on the front page of your plugin!';
+  }
+
+  function fooPage($exports) {
+    $bar = $exports['matches'][0];
+    echo 'You are on the foo/' . $bar . ' page of your plugin!';
   }
 
   // ...
@@ -584,7 +604,10 @@ class YourPlugin {
 
 // ...
 $yp = new YourPlugin();
-$plugin->index('your_plugin', array($yp, 'index'));
+
+// ...
+$plugin->index('your-plugin',          array($yp, 'indexPage'));
+$plugin->index('/your-plugin/foo/.*/', array($yp, 'fooPage'));
 ```
 
 ```php
