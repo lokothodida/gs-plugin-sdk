@@ -29,8 +29,8 @@ class GSPlugin {
   protected $actions = array('admin' => array());
   protected $javascript = array();
   protected $stylesheet = array();
-  protected $_adminPanel;
   protected $callbacks = array();
+  private   $adminmode, $admincallback, $routes = array('admin' => array(), 'index' => array());
 
   // == PUBLIC METHODS ==
   public function __construct($info) {
@@ -198,25 +198,13 @@ class GSPlugin {
     $args = func_get_args();
 
     if (count($args) == 1) {
+      $this->adminmode = 1;
       $callback = $this->createCallback($args[0], 'admin');
-      $this->_adminPanel = $callback;
-    } elseif (count($args) == 2) {
-      $callback = $this->createCallback($args[1], 'admin');
-      var_dump($this->callbacks);
-      $this->routes['admin'][] = array($args[0], $args[1], $callback);
-      $this->_adminPanel = array($this, 'execAdminRoute');
-      // @TODO
-      /*
-      if ($this->isPHPScript($args[1])) {
-        $callback = array('script' => $args[1]);
-      } else {
-        $callback = $args[1];
-      }
-
-      $this->_adminPanel[] = array($args[0], $callback);
-      */
+      $this->admincallback = $callback;
+    } elseif (count($args) >= 2) {
+      $this->adminmode = 2;
+      $this->routes['admin'][] = $args;
     }
-    // Implemented by extended classes
   }
 
   // == MAGIC METHODS ==
@@ -230,7 +218,8 @@ class GSPlugin {
       // Filters
       return $this->runScript($this->scripts['filters'][$explode[1]]);
     } elseif ($explode[0] == 'runCallback' && $explode[1] == 'admin') {
-      return $this->runCallback('admin', $explode[2], array('plugin' => $this));
+      $args = array_merge(array('plugin' => $this), $args[0]);
+      return $this->runCallback('admin', $explode[2], $args);
     }
   }
 
@@ -248,7 +237,7 @@ class GSPlugin {
       'website'     => $this->website(),
       'description' => $this->i18n('PLUGIN_DESCRIPTION'),
       'tab'         => $this->tab(),
-      'admin'       => array($this, '_admin'),
+      'admin'       => array($this, 'executeAdmin'),
     ));
   }
 
@@ -302,62 +291,13 @@ class GSPlugin {
     } else {
       $callback = $function;
     }
-    
+
     return $callback;
   }
 
   private function runCallback($type, $id, $args = array()) {
     extract($args);
-    var_dump($id, $this->callbacks[$type]);
     return include($this->path() . $this->callbacks[$type][$id]);
-  }
-
-  private function execAdminRoute() {
-    $requestUrl = $_SERVER['REQUEST_URI'];
-    $prefix = 'load.php?id=' . $this->id();
-    $prefixStart = strpos($requestUrl, $prefix);
-    $requestUrl = (string) substr($requestUrl, strpos($requestUrl, $prefix) + strlen($prefix));
-
-    if (strpos($requestUrl, '&') === 0) {
-      $requestUrl = substr($requestUrl, 1);
-    }
-
-    foreach ($this->routes['admin'] as $id => $route) {
-      var_dump($id, $route); echo '<br><br>';
-      list($url, $file, $action) = $route;
-
-      $valid = false;
-      $params = array();
-//var_dump($url, $requestUrl);
-      if ($url == $requestUrl) {
-        // Equality
-        $valid = true;
-      } elseif (!$valid && @preg_match($url, $requestUrl, $params) === 1) {
-        // Regular expression matches (error is suppressed here)
-        $valid = true;
-        array_shift($params);
-      }
-
-      if ($valid) {
-        // Buffer the contents of what has been given
-        $exports = array(
-          'plugin' => $this,
-          'matches' => $params,
-        );
-
-        $this->runCallback('admin', $id, array('exports' => $exports));
-        break;
-      }
-    }
-  }
-
-  // Runs admin scripts
-  public function _admin() {
-    if (empty($this->_admin['routes'])) {
-      call_user_func_array($this->_adminPanel, array());
-    } else {
-      
-    }
   }
 
   private function runScript($script, $import = array()) {
@@ -366,5 +306,83 @@ class GSPlugin {
     }
     extract($import);
     return include($this->path() . $script);
+  }
+
+  // Executes the administration panel
+  public function executeAdmin() {
+    $exports = array();
+    if ($this->adminmode === 1) {
+      call_user_func($this->admincallback, $exports);
+    } elseif ($this->adminmode === 2) {
+      $route = $this->executeAdminRoutes();
+      if ($route['success']) {
+        $callback = $route['callback'];
+        $exports['matches'] = $route['matches'];
+        $exports = array_merge($exports, $route['params']);
+        //export();
+        $this->invoke($callback, array('exports' => $exports));
+      }
+    }
+  }
+
+  private function invoke($callback, $params) {
+    call_user_func($callback, $params);
+  }
+
+  // Executes admin panel routes
+  private function executeAdminRoutes() {
+    $url = $_SERVER['REQUEST_URI'];
+    $prefix = 'load.php?id=' . $this->id();
+    $url = substr($url, strpos($url, $prefix) + strlen($prefix));
+
+    if (strpos($url, '&') === 0) {
+      $url = substr($url, 1);
+    }
+
+    $route = $this->executeRoutes($url, $this->routes['admin']);
+
+    if ($route['success']) {
+      $route['callback'] = $this->createCallback($route['callback'], 'admin');
+    }
+
+    return $route;
+  }
+
+  //
+  private function executeRoutes($request, $routes) {
+    foreach ($routes as $id => $route) {
+      list($url, $action) = $route;
+
+      if (isset($route[2])) {
+        $params = $route[2];
+      } else {
+        $params = array();
+      }
+
+      $valid = false;
+      $matches = array();
+
+      if ($url == $request) {
+        // Equality
+        $valid = true;
+      } elseif (!$valid && @preg_match($url, $request, $matches) === 1) {
+        // Regular expression matches (error is suppressed here)
+        $valid = true;
+        array_shift($matches);
+      }
+
+      if ($valid) {
+        return array(
+          'params' => $params,
+          'matches' => $matches,
+          'callback' => $action,
+          'success' => true,
+        );
+      }
+    }
+
+    return array(
+      'success' => false,
+    );
   }
 }
