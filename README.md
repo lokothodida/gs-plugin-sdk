@@ -27,8 +27,10 @@ in order to simplify the typical problems that arise during [GetSimple plugin](h
 * `include` those files before your plugin is registered
 * You can now use these classes in your plugin
 
-# Included Libraries
-* TODO: Full documentation for below methods
+# TODO
+* Full documentation for below methods
+
+# Libraries
 ## GSUtils
 ### SDK_VERSION
 ### __construct
