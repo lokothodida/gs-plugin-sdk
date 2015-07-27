@@ -27,6 +27,8 @@ class GSPlugin {
   protected $filters = array();
   protected $info = array();
   protected $actions = array('admin' => array());
+  protected $javascript = array();
+  protected $stylesheet = array();
   protected $_adminPanel;
 
   // == PUBLIC METHODS ==
@@ -126,11 +128,33 @@ class GSPlugin {
     $this->filters[] = array($name, $fn);
   }
 
+  // Script
+  public function script($params = array()) {
+    $params = array_merge(array(
+      'id' => null,
+      'src' => null,
+      'baseurl' => $GLOBALS['SITEURL'] . $GLOBALS['GSADMIN'] . '/',
+      'version' => '0.1',
+      'where' => GSBACK,
+      'footer' => false,
+    ), $params);
+
+    $id = $params['id'];
+    $src = $params['baseurl'] . $params['src'];
+    $version = $params['version'];
+    $footer = $params['footer'];
+    $where = $params['where'];
+
+    $this->stylesheet[] = array($id, $src, $version, $footer, $where);
+  }
+
   // Initialize the plugin
   public function init() {
     $this->register();
     $this->processHooks();
     $this->processFilters();
+    $this->processStylesheet();
+    $this->processJavascript();
   }
 
   // i18n hashes, namespaced by the plugin id
@@ -206,6 +230,14 @@ class GSPlugin {
     foreach ($this->filters as $filter) {
       list ($name, $fn) = $filter;
       add_filter($name, $fn);
+    }
+  }
+
+  protected function processStylesheet() {
+    foreach ($this->stylesheet as $stylesheet) {
+      list($id, $src, $version, $footer, $where) = $stylesheet;
+      register_style($id, $src, $version, $footer);
+      queue_style($id, $where);
     }
   }
 
