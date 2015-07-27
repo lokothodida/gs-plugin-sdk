@@ -16,9 +16,10 @@ in order to simplify the typical problems that arise during [GetSimple plugin](h
 
 # Getting Started
 ## From scratch
-* Download the Hello World plugin example
+* Download the [Hello World](https://github.com/lokothodida/gs-hello-world/) plugin example
 * Rename the `hello_world.php` file and `hello_world/` folder
 * You now have a ready-built plugin with the SDK library included
+* *\*NOTE\* currently only the GSPlugin class is in the Hello World example. Download the other classes from here.*
 
 ## From an existing plugin
 * Create a /lib/ directory in your plugin's folder
