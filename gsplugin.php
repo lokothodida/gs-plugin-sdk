@@ -27,6 +27,7 @@ class GSPlugin {
 
   // == PUBLIC METHODS ==
   public function __construct($info) {
+    // TODO: autoloading and dependency recognition
     $this->info = $info;
     $this->info['path'] = GSPLUGINPATH . '/' . $this->id() . '/'; 
     $this->i18nMerge();
@@ -52,33 +53,26 @@ class GSPlugin {
     if (count($args) == 0) {
       return $this->info['tab'];
     } else {
-      $tab = array();
-
-      if (!is_array($args[0])) {
-        $tab['name'] = $args[0];
-      } else {
-        $tab = $args[0];
+      if (empty($args[0])) {
+        $args[0] = '';
       }
 
-      if (isset($args[1])) {
-        $tab['plugin'] = $args[0];
+      if (!isset($args[1])) {
+        $args[1] = null;
       }
 
-      if (isset($args[2])) {
-        $tab['label'] = $args[2];
+      if (!isset($args[2])) {
+        $args[2] = null;
       }
 
-      $tab = array_merge(array(
-        'plugin' => $this->id(),
-        'flag' => null,
-      ), $tab);
-
-      $this->hook('nav-tab', 'createNavTab', array(
-        $tab['name'],
-        $tab['plugin'],
-        $tab['label'],
-        $tab['flag'])
+      $tab = array(
+        'tabname'  => $args[0],
+        'pluginid' => $this->id(),
+        'label'    => $args[1],
+        'action'   => $args[2],
       );
+
+      $this->hook('nav-tab', 'createNavTab', $tab);
     }
   }
 
