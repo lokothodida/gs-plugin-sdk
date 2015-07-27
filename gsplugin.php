@@ -77,33 +77,16 @@ class GSPlugin {
   }
 
   // Add a sidebar
-  // Overloaded function
-  // If an associative array is given, those keys are used to create the menu
-  // Otherwise we parse the argument list to get a correctly formatted array
-  public function sidebar() {
-    $args = func_get_args();
-    $sidebar = $args[0];
-
-    if (!is_array($sidebar)) {
-      $sidebar = array('label' => $sidebar);
+  public function sidebar($label, $action = null, $visibility = true, $tab = null) {
+    if (empty($tab)) {
+      $tab = $this->tab();
     }
 
-    if (isset($args[1]) && is_string($args[1])) {
-      $sidebar['action'] = $args[1];
-    }
-
-    $sidebar = array_merge(array(
-      'tab' => $this->tab(),
-      'action' => null,
-      'flag' => true,
-      'id' => $this->id(),
-    ), $sidebar);
-
-    $this->hook($sidebar['tab'] . '-sidebar', 'createSideMenu', array(
-      $sidebar['id'],
-      $sidebar['label'],
-      $sidebar['action'],
-      $sidebar['flag'])
+    $this->hook($tab . '-sidebar', 'createSideMenu', array(
+      $this->id(),
+      $label,
+      $action,
+      $visibility)
     );
   }
 
