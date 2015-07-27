@@ -416,7 +416,7 @@ Register a Javascript file to be loaded
 ##### `script($params)`
 
 ```php
-// == PARAMETERS==
+// == PARAMETERS ==
 // $params['id']      unique id for the script
 // $params['src']     script source
 // $params['baseurl'] base url for script; defaults to your plugin folder
@@ -426,8 +426,9 @@ Register a Javascript file to be loaded
 ```
 
 ```php
+// Loads your_plugin/js/script.js on the front and back end
 $plugin->script(array(
-  'id' => 'your_plugin_script',
+  'id'    => 'your_plugin_script',
   'src'   => 'js/script.js',
   'where' => GSBOTH,
 ));
@@ -436,7 +437,20 @@ $plugin->script(array(
 ### style
 Register a CSS sheet to be loaded
 
+##### `style($params)`
+
 ```php
+// == PARAMETERS ==
+// $params['id']      unique id for the style
+// $params['href']    style source
+// $params['baseurl'] base url for style; defaults to your plugin folder
+// $params['version'] style version
+// $params['where']   where to load: GSFRONT, GSBACK or GSBOTH
+// $params['media']   media type for style
+```
+
+```php
+// Loads your_plugin/css/style.css on the front end
 $plugin->style(array(
   'id' => 'your_plugin_style',
   'src' => 'css/style.css,
