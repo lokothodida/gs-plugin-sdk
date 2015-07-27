@@ -162,7 +162,7 @@ try {
 ### getfiles
 Gets array of file contents. Parses the contents if the file is a JSON.
 
-``php
+```php
 try {
   $files = $utils->getfiles('yourdir/*.json');
   foreach ($files as $filename => $data) {
