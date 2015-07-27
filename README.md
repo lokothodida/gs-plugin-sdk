@@ -254,8 +254,31 @@ This library is meant to ease plugin registration and registering the correct
 hooks.
 
 ### SDK_VERSION
+Current SDK version. Use this to check if another version of the SDK has been
+loaded.
+
+```php
+if (GSPlugin::SDK_VERSION <= 0.1) {
+  // ...
+}
+```
+
 ### __construct
 Instantiate the plugin wrapper with data about the plugin.
+
+#### `__construct($params)`
+    ```php
+    // == CONSTRUCTOR PARAMETERS ==
+    // $params['id']      (string)         plugin id (normally the plugin folder)
+    // $params['author']  (string)         plugin author
+    // $params['version'] (string|num)     plugin version
+    // $params['website'] (string)         author website
+    // $params['tab']     (string)         main plugin tab
+    // $params['lang']    (string)         default language
+    // $params['deps']    (array (string)) plugin ids of plugins that need to be
+    //                                     installed for this plugin to work
+    ```
+
 ```php
 $plugin = new GSPlugin(array(
   'id'       => 'your_plugin',
@@ -460,7 +483,7 @@ $plugin->style(array(
 
 ### admin
 Load the administration panel for your plugin
-#### `admin($function)`
+#### `admin($callback)`
 Execute a function when your plugin's admin page is accessed
 ```php
 // == GLOBAL FUNCTION EXAMPLE ==
@@ -502,7 +525,7 @@ $plugin->admin('backend/admin.php');
 ```
 
 #### `admin($url, $callback)`
-Execute the `$function` when the admin's url resembles the `$url`.
+Execute the `$callback` when the admin's url resembles the `$url`.
 
 * The `$callback` takes an `(array) $exports` parameter, which has a collection of
 variables that are imported into the scope of your function.
@@ -587,8 +610,8 @@ function your_plugin_foo_page($exports) {
 }
 
 // ...
-$plugin->index('your_plugin', 'your_plugin_index_page');
-$plugin->index('your_plugin', 'your_plugin_foo_page');
+$plugin->index('your-plugin', 'your_plugin_index_page');
+$plugin->index('your-plugin', 'your_plugin_foo_page');
 ```
 
 ```php
@@ -621,10 +644,12 @@ $plugin->index('/your-plugin/foo/(.*)', array($yp, 'fooPage'));
 // your_plugin/frontend/index.php
 echo 'You are on the front page of your plugin!';
 
+// ...
 // your_plugin/frontend/foo.php
 $bar = $exports['matches'][0];
 echo 'You are on the foo/' . $bar . ' page of your plugin!';
 
+// ...
 // In your plugin registration file:
 $plugin->index('your-plugin',           'frontend/index.php');
 $plugin->index('/your-plugin/foo/(.*)', 'frontend/foo.php');
@@ -641,18 +666,18 @@ echo $plugin->i18n('PLUGIN_TITLE');
 ### autoload
 Adds an autoloader to be registered when the plugin is initialized. Allows you
 to `include` classes on fly.
-#### `autoload($function)`
+#### `autoload($callback)`
 
 ```php
 // == GLOBAL FUNCTION EXAMPLE ==
 // Includes classes in your_plugin/lib/*.php (in lower case)
-function my_autoloader($class) {
+function your_plugin_lib($class) {
   include GSPLUGINPATH . 'your_plugin/lib/' . strtolower($class) . '.php';
 }
 
 // ...
 
-$plugin->autoload('my_autoloader');
+$plugin->autoload('your_plugin_lib');
 ```
 
 ```php
@@ -678,9 +703,8 @@ $plugin->autoload(array($yp, 'loadLib'));
 // == SCRIPT EXAMPLE ==
 // your_plugin/loadlib.php
 include GSPLUGINPATH . 'your_plugin/lib/' . strtolower($class) . '.php';
-```
 
-```php
+// In your plugin registration file:
 $plugin->autoload('loadlib.php'));
 ```
 
