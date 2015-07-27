@@ -20,6 +20,10 @@ class GSPlugin {
   // == PROPERTIES ==
   protected $hooks = array();
   protected $hookScripts = array();
+  protected $scripts = array(
+    'hooks' => array(),
+    'filters' => array(),
+  );
   protected $filters = array();
   protected $info = array();
   protected $actions = array('admin' => array());
@@ -113,7 +117,13 @@ class GSPlugin {
 
   // Register a filter
   public function filter($name, $fn) {
-    $this->filter[] = array($name, $fn);
+    if ($this->isPHPScript($fn)) {
+      $id = count($this->scripts['filters']);
+      $this->scripts['filters'][] = $fn;
+      $fn = array($this, 'filterScript_' . $id);
+    }
+
+    $this->filters[] = array($name, $fn);
   }
 
   // Initialize the plugin
@@ -159,7 +169,11 @@ class GSPlugin {
   public function __call($name, $args) {
     $explode = explode('_', $name);
     if ($explode[0] == 'hookScript') {
-      $this->runScript($this->hookScripts[$explode[1]]);
+      // Hooks
+      return $this->runScript($this->hookScripts[$explode[1]]);
+    } elseif ($explode[0] == 'filterScript') {
+      // Filters
+      return $this->runScript($this->scripts['filters'][$explode[1]]);
     }
   }
 
@@ -218,6 +232,6 @@ class GSPlugin {
       $import['plugin'] = $this;
     }
     extract($import);
-    include($this->path() . $script);
+    return include($this->path() . $script);
   }
 }
