@@ -501,18 +501,57 @@ echo 'This is your admin panel';
 $plugin->admin('backend/admin.php');
 ```
 
-#### `admin($url, $function)`
-Execute the `$function` when the admin's url resembles the `$url`. `$url` can
-be a normal string or a Regular Expression. If it is a regular expression, the
-`$matches` will be passed as an array to the `$function`.
-
-TODO: Expand on this
+#### `admin($url, $callback)`
+Execute the `$function` when the admin's url resembles the `$url`.
+* The `$callback` takes an `(array) $exports` parameter, which has a collection of
+variables that are imported into the scope of your function.
+* `$url` can be a normal string or a Regular Expression. If it is a RegEx, the
+`matches` will be be available as an array on `$exports`.
+    ```php
+    // == EXPORTS PARAMETERS ==
+    // $exports['plugin']   your plugin instance
+    // $exports['matches']  matches made on $url (if it was a RegEx)
+    ```
 
 ```php
-// Load backend/create.php when in your_plugin&create
-$plugin->admin('create', 'backend/create.php');
+// == CLASS METHOD EXAMPLE ==
+class YourPlugin {
+  // ...
 
-// Load backend/edit.php when in your_plugin&edit=[something]
+  public function createPage($exports) {
+    echo 'This is the create page';
+  }
+
+  public function editPage($exports) {
+    $edit = $exports['matches'][0];
+    echo 'This is the edit page for ' . $edit;
+  }
+
+  // ...
+}
+
+// ...
+$yp = new YourPlugin(/* params */);
+
+// ...
+$plugin->admin('create',    array($yp, 'createPage'));
+$plugin->admin('/edit=.*/', array($yp, 'editPage'));
+```
+
+```php
+// == SCRIPT EXAMPLE ==
+// your_plugin/backend/create.php
+echo 'This is the create page';
+```
+
+```php
+// your_plguin/backend/edit.php
+$edit = $exports['matches'][0];
+echo 'This is the edit page for ' . $edit;
+```
+
+```php
+$plugin->admin('create',    'backend/create.php');
 $plugin->admin('/edit=.*/', 'backend/edit.php');
 ```
 
