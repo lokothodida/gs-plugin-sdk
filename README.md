@@ -367,6 +367,49 @@ $plugin->trigger('your-hook-name');
 ### filter
 Register a plugin filter
 
+```php
+// == GLOBAL FUNCTION EXAMPLE ==
+function your_plugin_content($content) {
+  $string = 'This will be prepended to the page content';
+  return $string . $content;
+}
+
+$plugin->filter('content', 'your_plugin_content');
+```
+
+```php
+// == CLASS METHOD EXAMPLE ==
+class YourPlugin {
+  // ...
+
+  public function content($content) {
+    $string = 'This will be prepended to the page content';
+    return $string . $content;
+  }
+
+  // ...
+}
+
+// ...
+$yp = new YourPlugin(/* params */);
+
+// ...
+$plugin->filter('content', array($yp, 'content'));
+```
+
+```php
+// == SCRIPT EXAMPLE ==
+// your_plugin/frontend/content.php
+$content = $args[0];
+$string = 'This will be prepended to the page content';
+return $string . $content;
+```
+
+```php
+// ...
+$plugin->filter('content', 'frontend/content.php');
+```
+
 ### script
 Register a Javascript file to be loaded
 
