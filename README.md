@@ -262,7 +262,24 @@ echo 'The plugin author is ' . $plugin->author();
 ```
 
 ### version
+Get the plugin version (same as one given in the constructor)
+```php
+echo 'The plugin version is ' . $plugin->version();
+```
+
 ### tab
+#### `tab()`
+Get the plugin tab (same as one given in the constructor)
+```php
+echo 'The plugin tab is ' . $plugin->tab();
+```
+
+#### `tab($id, $label, $action = null)`
+Register a new tab for the plugin
+```php
+$plugin->tab(/* */);
+```
+
 ### sidebar
 ### hook
 ### filter
