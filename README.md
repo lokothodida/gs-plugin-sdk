@@ -268,17 +268,17 @@ Instantiate the plugin wrapper with data about the plugin.
 
 #### `__construct($params)`
 
-    ```php
-    // == CONSTRUCTOR PARAMETERS ==
-    // $params['id']      (string)         plugin id (normally the plugin folder)
-    // $params['author']  (string)         plugin author
-    // $params['version'] (string|num)     plugin version
-    // $params['website'] (string)         author website
-    // $params['tab']     (string)         main plugin tab
-    // $params['lang']    (string)         default language
-    // $params['deps']    (array (string)) plugin ids of plugins that need to be
-    //                                     installed for this plugin to load
-    ```
+```php
+// == CONSTRUCTOR PARAMETERS ==
+// $params['id']      (string)         plugin id (normally the plugin folder)
+// $params['author']  (string)         plugin author
+// $params['version'] (string|num)     plugin version
+// $params['website'] (string)         author website
+// $params['tab']     (string)         main plugin tab
+// $params['lang']    (string)         default language
+// $params['deps']    (array (string)) plugin ids of plugins that need to be
+//                                     installed for this plugin to load
+```
 
 ```php
 $plugin = new GSPlugin(array(
@@ -326,15 +326,26 @@ $plugin->tab('myothertab', 'My Other Tab', 'myaction');
 ```
 
 ### sidebar
-#### `sidebar($label[, $action, $visibility, $tab])`
-Register a sidebar for the plugin. Defaults to the tab that you initialized the plugin with
+#### `sidebar($label[, $action, $visibility = true, $tab])`
+Register a sidebar for the plugin. Defaults to the tab that you initialized the plugin with.
+
 ```php
 // Add a sidebar link
-$plugin->sidebar('My Plugin Sidebar Link');
+$plugin->sidebar('My Plugin');
+
+// Add sidebar link to url 'your_plugin&view'
+$plugin->sidebar('View Items', 'view');
+
+// Add sidebar link to url 'your_plugin&create' that only appears when inside
+// your plugin
+$plugin->sidebar('Create Item', 'edit', false);
+
+// Add sidebar link that appears on a different tab
+$plugin->sidebar('About Your Plugin', 'about', true, 'plugins');
 ```
 
 ### hook
-Register a plugin hook
+Register a plugin [hook](http://get-simple.info/wiki/plugins:hooks_filters).
 
 #### `hook($name, $callback[, $callbackargs])`
 
@@ -388,7 +399,7 @@ $plugin->trigger('your-hook-name');
 ```
 
 ### filter
-Register a plugin filter
+Register a plugin [filter](http://get-simple.info/wiki/plugins:hooks_filters).
 
 ```php
 // == GLOBAL FUNCTION EXAMPLE ==
