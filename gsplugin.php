@@ -30,6 +30,7 @@ class GSPlugin {
   protected $javascript = array();
   protected $stylesheet = array();
   protected $_adminPanel;
+  protected $callbacks = array();
 
   // == PUBLIC METHODS ==
   public function __construct($info) {
@@ -197,13 +198,23 @@ class GSPlugin {
     $args = func_get_args();
 
     if (count($args) == 1) {
-      if ($this->isPHPScript($args[0])) {
-        $this->_adminPanel = array('script' => $args[0]);
-      } else {
-        $this->_adminPanel = $args[0];
-      }
+      $callback = $this->createCallback($args[0], 'admin');
+      $this->_adminPanel = $callback;
     } elseif (count($args) == 2) {
+      $callback = $this->createCallback($args[1], 'admin');
+      var_dump($this->callbacks);
+      $this->routes['admin'][] = array($args[0], $args[1], $callback);
+      $this->_adminPanel = array($this, 'execAdminRoute');
       // @TODO
+      /*
+      if ($this->isPHPScript($args[1])) {
+        $callback = array('script' => $args[1]);
+      } else {
+        $callback = $args[1];
+      }
+
+      $this->_adminPanel[] = array($args[0], $callback);
+      */
     }
     // Implemented by extended classes
   }
@@ -218,6 +229,8 @@ class GSPlugin {
     } elseif ($explode[0] == 'filterScript') {
       // Filters
       return $this->runScript($this->scripts['filters'][$explode[1]]);
+    } elseif ($explode[0] == 'runCallback' && $explode[1] == 'admin') {
+      return $this->runCallback('admin', $explode[2], array('plugin' => $this));
     }
   }
 
@@ -280,10 +293,70 @@ class GSPlugin {
     }
   }
 
+  private function createCallback($function, $type) {
+    $callback = null;
+    if ($this->isPHPScript($function)) {
+      $id = count($this->callbacks);
+      $this->callbacks[$type][] = $function;
+      $callback = array($this, 'runCallback_' . $type . '_' . $id);
+    } else {
+      $callback = $function;
+    }
+    
+    return $callback;
+  }
+
+  private function runCallback($type, $id, $args = array()) {
+    extract($args);
+    var_dump($id, $this->callbacks[$type]);
+    return include($this->path() . $this->callbacks[$type][$id]);
+  }
+
+  private function execAdminRoute() {
+    $requestUrl = $_SERVER['REQUEST_URI'];
+    $prefix = 'load.php?id=' . $this->id();
+    $prefixStart = strpos($requestUrl, $prefix);
+    $requestUrl = (string) substr($requestUrl, strpos($requestUrl, $prefix) + strlen($prefix));
+
+    if (strpos($requestUrl, '&') === 0) {
+      $requestUrl = substr($requestUrl, 1);
+    }
+
+    foreach ($this->routes['admin'] as $id => $route) {
+      var_dump($id, $route); echo '<br><br>';
+      list($url, $file, $action) = $route;
+
+      $valid = false;
+      $params = array();
+//var_dump($url, $requestUrl);
+      if ($url == $requestUrl) {
+        // Equality
+        $valid = true;
+      } elseif (!$valid && @preg_match($url, $requestUrl, $params) === 1) {
+        // Regular expression matches (error is suppressed here)
+        $valid = true;
+        array_shift($params);
+      }
+
+      if ($valid) {
+        // Buffer the contents of what has been given
+        $exports = array(
+          'plugin' => $this,
+          'matches' => $params,
+        );
+
+        $this->runCallback('admin', $id, array('exports' => $exports));
+        break;
+      }
+    }
+  }
+
   // Runs admin scripts
   public function _admin() {
-    if (isset($this->_adminPanel['script'])) {
-      $this->runScript($this->_adminPanel['script']);
+    if (empty($this->_admin['routes'])) {
+      call_user_func_array($this->_adminPanel, array());
+    } else {
+      
     }
   }
 
