@@ -123,7 +123,31 @@ try {
 ### rmfile
 ### mvfile
 ### getfile
+Gets file contents. Parses the contents if the file is a JSON.
+
+``php
+try {
+  $file = $utils->getfile('yourdir/data.json');
+  echo $file['key1'];
+} catch (Exception $error) {
+  echo 'Error getting files';
+}
+```
+
 ### getfiles
+Gets array of file contents. Parses the contents if the file is a JSON.
+
+``php
+try {
+  $files = $utils->getfiles('yourdir/*.json');
+  foreach ($files as $filename => $data) {
+    // ...
+  }
+} catch (Exception $error) {
+  echo 'Error getting files';
+}
+```
+
 ### fileexists
 Returns `true` iff the file exists.
 
