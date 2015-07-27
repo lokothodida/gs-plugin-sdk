@@ -106,6 +106,11 @@ class GSPlugin {
     $this->hooks[] = array($name, $fn, $args);
   }
 
+  // Trigger a hook
+  public function trigger($hookname) {
+    exec_action($hookname);
+  }
+
   // Register a filter
   public function filter($name, $fn) {
     $this->filter[] = array($name, $fn);
