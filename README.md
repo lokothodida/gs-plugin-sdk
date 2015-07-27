@@ -72,19 +72,101 @@ an error deleting the directory.
 ```
 
 ### mvdir
+Moves a directory
+
+```php
+try {
+  $utils->mvdir('yourdir', 'anotherdir');
+} catch (Exception $error) {
+  echo 'Could not move directory';
+}
+```
+
 ### copy
+Copy a directory. Throws exception if there is an error copying the directory.
+
+```php
+try {
+  $utils->copy('yourdir', 'anotherdir');
+} catch (Exception $error) {
+  echo 'Could not copy directory';
+}
+```
+
 ### mkfile
+Makes a file.
+
+#### `mkfile($jsonfile, $data)`
+```php
+try {
+  $utils->mkfile('yourdir/data.json', array(
+    'key1' => 'value1',
+    'key2' => 'value2',
+  ));
+} catch (Exception $error) {
+  echo 'Error creating file';
+}
+```
+
 ### putfile
+```php
+try {
+  $utils->putfile('yourdir/data.json', array(
+    'key1' => 'value1',
+    'key2' => 'value2',
+  ));
+} catch (Exception $error) {
+  echo 'Error putting file contents';
+}
+```
+
 ### rmfile
 ### mvfile
 ### getfile
 ### getfiles
 ### fileexists
-### iswritable
+Returns `true` iff the file exists.
+
+```php
+if ($utils->fileexists('yourdir/data.json')) {
+  // ...
+}
+```
+
+### iswriteable
+Returns true iff the file is writeable
+
+```php
+if ($utils->iswriteable('yourdir/data.json')) {
+  // ...
+}
+```
+
 ### print
+Pretty-prints variables.
+
+```php
+echo $utils->print($var1, $var2, $var3);
+```
+
 ### slug
+Slugify a string.
+
+```php
+$slug = $utils->slug('SOMEthing HErE'); // something-here
+```
+
 ### translit
+Transliterate a string.
+
+```php
+```
+
 ### clean
+Sanitize a string.
+
+```php
+```
 
 ## GSUI
 This library is meant to help build administration panel interfaces as strings with
