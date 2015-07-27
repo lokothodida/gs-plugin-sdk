@@ -19,7 +19,7 @@ in order to simplify the typical problems that arise during [GetSimple plugin](h
 * Download the [Hello World](https://github.com/lokothodida/gs-hello-world/) plugin example
 * Rename the `hello_world.php` file and `hello_world/` folder
 * You now have a ready-built plugin with the SDK library included
-* *\*NOTE\* currently only the GSPlugin class is in the Hello World example. Download the other classes from here.*
+* *NOTE: currently only the GSPlugin class is in the Hello World example. Download the other classes from here.*
 
 ## From an existing plugin
 * Create a /lib/ directory in your plugin's folder
@@ -28,6 +28,7 @@ in order to simplify the typical problems that arise during [GetSimple plugin](h
 * You can now use these classes in your plugin
 
 # Included Libraries
+* TODO: Full documentation for below methods
 ## GSUtils
 ### SDK_VERSION
 ### __construct
