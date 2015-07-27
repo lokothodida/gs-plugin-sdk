@@ -561,7 +561,7 @@ $plugin->admin('/edit=.*/', 'backend/edit.php');
 Runs code on the front-end of your site. This is done to implement "custom page"
 functionality (e.g. creating a blog plugin).
 
-#### `index($url, $function)`
+#### `index($url, $callback)`
 
 * The `$callback` takes an `(array) $exports` parameter, which has a collection of
 variables that are imported into the scope of your function.
@@ -577,12 +577,18 @@ variables that are imported into the scope of your function.
 
 ```php
 // == GLOBAL FUNCTION EXAMPLE ==
-function your_plugin_index($exports) {
+function your_plugin_index_page($exports) {
   echo 'You are on the front page of your plugin!';
 }
 
+function your_plugin_foo_page($exports) {
+  $bar = $exports['matches'][0];
+  echo 'You are on the foo/' . $bar . ' page of your plugin!';
+}
+
 // ...
-$plugin->index('your_plugin', 'your_plugin_index');
+$plugin->index('your_plugin', 'your_plugin_index_page');
+$plugin->index('your_plugin', 'your_plugin_foo_page');
 ```
 
 ```php
@@ -590,11 +596,11 @@ $plugin->index('your_plugin', 'your_plugin_index');
 class YourPlugin {
   // ...
 
-  function indexPage($exports) {
+  public function indexPage($exports) {
     echo 'You are on the front page of your plugin!';
   }
 
-  function fooPage($exports) {
+  public function fooPage($exports) {
     $bar = $exports['matches'][0];
     echo 'You are on the foo/' . $bar . ' page of your plugin!';
   }
@@ -603,21 +609,23 @@ class YourPlugin {
 }
 
 // ...
-$yp = new YourPlugin();
+$yp = new YourPlugin(/* params */);
 
 // ...
-$plugin->index('your-plugin',          array($yp, 'indexPage'));
-$plugin->index('/your-plugin/foo/.*/', array($yp, 'fooPage'));
+$plugin->index('your-plugin',           array($yp, 'indexPage'));
+$plugin->index('/your-plugin/foo/(.*)', array($yp, 'fooPage'));
 ```
 
 ```php
 // == SCRIPT EXAMPLE ==
 // your_plugin/frontend/index.php
 echo 'You are on the front page of your plugin!';
-```
 
-```php
-// ...
+// your_plugin/frontend/foo.php
+$bar = $exports['matches'][0];
+echo 'You are on the foo/' . $bar . ' page of your plugin!';
+
+// In your plugin registration file:
 $plugin->index('your_plugin', 'frontend/index.php');
 ```
 
