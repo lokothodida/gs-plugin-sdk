@@ -29,7 +29,7 @@ class GSPlugin {
   protected $actions = array('admin' => array());
   protected $javascript = array();
   protected $stylesheet = array();
-  protected $callbacks = array();
+  protected $callbacks = array('admin' => array(), 'autoload' => array(), 'index' => array());
   private   $adminmode, $admincallback, $routes = array('admin' => array(), 'index' => array());
   private   $indexmode, $indexcallback;
 
@@ -224,6 +224,16 @@ class GSPlugin {
     }
   }
 
+  // Autoload
+  public function autoload($callback) {
+    $cb = $this->createCallback($callback, 'autoload');
+    if ($this->isPHPScript($callback)) {
+      spl_autoload_register(create_function('$class', 'include "' . $this->path() . $callback . '";'));
+    } else {
+      spl_autoload_register($cb);
+    }
+  }
+
   // == MAGIC METHODS ==
   // Implements the hook PHP scripts
   public function __call($name, $args) {
@@ -239,6 +249,9 @@ class GSPlugin {
       return $this->runCallback('admin', $explode[2], $args);
     } elseif ($explode[0] == 'runCallback' && $explode[1] == 'index') {
       return $this->runCallback('index', $explode[2], $args[0]);
+    } elseif ($explode[0] == 'runCallback' && $explode[1] == 'autoload') {
+      //var_dump($explode);
+      //return $this->runCallback('autoload', $explode[2], $args[0]);
     } else {
       throw new Exception('Method not found');
     }
@@ -306,7 +319,7 @@ class GSPlugin {
   private function createCallback($function, $type) {
     $callback = null;
     if ($this->isPHPScript($function)) {
-      $id = count($this->callbacks);
+      $id = count($this->callbacks[$type]);
       $this->callbacks[$type][] = $function;
       $callback = array($this, 'runCallback_' . $type . '_' . $id);
     } else {
@@ -318,6 +331,7 @@ class GSPlugin {
 
   private function runCallback($type, $id, $args = array()) {
     extract($args);
+    var_dump($type, $id);
     return include($this->path() . $this->callbacks[$type][$id]);
   }
 
