@@ -121,16 +121,36 @@ try {
 ```
 
 ### rmfile
+Deletes a file.
+
+```php
+try {
+  $utils->rmfile('yourdir/data.json');
+} catch (Exception $error) {
+  echo 'Error deleting file';
+}
+```
+
 ### mvfile
+Deletes a file.
+
+```php
+try {
+  $utils->rmfile('yourdir/data.json', 'somedir/data.json');
+} catch (Exception $error) {
+  echo 'Error moving file';
+}
+```
+
 ### getfile
 Gets file contents. Parses the contents if the file is a JSON.
 
-``php
+```php
 try {
   $file = $utils->getfile('yourdir/data.json');
   echo $file['key1'];
 } catch (Exception $error) {
-  echo 'Error getting files';
+  echo 'Error getting file';
 }
 ```
 
