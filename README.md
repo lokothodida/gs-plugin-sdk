@@ -626,7 +626,8 @@ $bar = $exports['matches'][0];
 echo 'You are on the foo/' . $bar . ' page of your plugin!';
 
 // In your plugin registration file:
-$plugin->index('your_plugin', 'frontend/index.php');
+$plugin->index('your-plugin',           'frontend/index.php');
+$plugin->index('/your-plugin/foo/(.*)', 'frontend/foo.php');
 ```
 
 ### i18n
@@ -641,12 +642,12 @@ echo $plugin->i18n('PLUGIN_TITLE');
 Adds an autoloader to be registered when the plugin is initialized. Allows you
 to `include` classes on fly.
 #### `autoload($function)`
-##### Global function
 
 ```php
+// == GLOBAL FUNCTION EXAMPLE ==
 // Includes classes in your_plugin/lib/*.php (in lower case)
 function my_autoloader($class) {
-  include(GSPLUGINPATH . 'your_plugin/lib/' . strtolower($class) . '.php');
+  include GSPLUGINPATH . 'your_plugin/lib/' . strtolower($class) . '.php';
 }
 
 // ...
@@ -654,52 +655,33 @@ function my_autoloader($class) {
 $plugin->autoload('my_autoloader');
 ```
 
-##### Class (object) method
-
 ```php
+// == CLASS METHOD EXAMPLE ==
 class YourPlugin {
   // ...
 
-  // Includes classes in your_plugin/lib/*.php (in lower case)
-  public function autoloader($class) {
-    include(GSPLUGINPATH . 'your_plugin/lib/' . strtolower($class) . '.php');
+  public function loadLib($class) {
+    include GSPLUGINPATH . 'your_plugin/lib/' . strtolower($class) . '.php';
   }
 
   // ...
 }
+
 // ...
+$yp = new YourPlugin(/* params */);
 
-$yp = new YourPlugin;
-$plugin->autoload(array($yp, 'autoloader'));
-```
-
-##### Class (singleton) method
-
-```php
-class YourPlugin {
-  // ...
-
-  // Includes classes in your_plugin/lib/*.php (in lower case)
-  public static function autoloader($class) {
-    include(GSPLUGINPATH . 'your_plugin/lib/' . strtolower($class) . '.php');
-  }
-
-  // ...
-}
 // ...
-
-$plugin->autoload('YourPlugin::autoloader'));
-```
-
-##### Script
-
-```php
-// your_plugin/autoloader.php
-include(GSPLUGINPATH . 'your_plugin/lib/' . strtolower($class) . '.php');
+$plugin->autoload(array($yp, 'loadLib'));
 ```
 
 ```php
-$plugin->autoload('autoloader.php'));
+// == SCRIPT EXAMPLE ==
+// your_plugin/loadlib.php
+include GSPLUGINPATH . 'your_plugin/lib/' . strtolower($class) . '.php';
+```
+
+```php
+$plugin->autoload('loadlib.php'));
 ```
 
 ### init
