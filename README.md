@@ -383,7 +383,7 @@ echo $plugin->i18n('PLUGIN_TITLE');
 Adds an autoloader to be registered when the plugin is initialized. Allows
 classes to be `include`d on the fly.
 #### `autoload($function)`
-Global function:
+##### Global function
 
 ```php
 // Includes classes in your_plugin/lib/*.php (in lower case)
@@ -396,7 +396,7 @@ function my_autoloader($class) {
 $plugin->autoload('my_autoloader');
 ```
 
-Class method:
+##### Class (object) method
 
 ```php
 class YourPlugin {
@@ -411,11 +411,11 @@ class YourPlugin {
 }
 // ...
 
-$yp = new YourPlugin
+$yp = new YourPlugin;
 $plugin->autoload(array($yp, 'autoloader'));
 ```
 
-Singleton method:
+##### Class (singleton) method
 
 ```php
 class YourPlugin {
@@ -431,8 +431,9 @@ class YourPlugin {
 // ...
 
 $plugin->autoload('YourPlugin::autoloader'));
+```
 
-Script:
+##### Script
 
 ```php
 // your_plugin/autoloader.php
@@ -444,3 +445,10 @@ $plugin->autoload('autoloader.php'));
 ```
 
 ### init
+Initializes plugin. Must be called in order for your plugin to be fully registered
+and for the hooks/filters to be registered.
+
+```php
+// Finally:
+$plugin->init();
+```
