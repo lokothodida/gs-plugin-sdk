@@ -31,6 +31,7 @@ class GSPlugin {
   protected $stylesheet = array();
   protected $callbacks = array();
   private   $adminmode, $admincallback, $routes = array('admin' => array(), 'index' => array());
+  private   $indexmode, $indexcallback;
 
   // == PUBLIC METHODS ==
   public function __construct($info) {
@@ -172,6 +173,7 @@ class GSPlugin {
   // Initialize the plugin
   public function init() {
     $this->register();
+    $this->hook('error-404', array($this, 'executeIndex'));
     $this->processHooks();
     $this->processFilters();
     $this->processStylesheet();
@@ -207,6 +209,21 @@ class GSPlugin {
     }
   }
 
+  // Register index actions
+  public function index() {
+    // Check the arguments
+    $args = func_get_args();
+
+    if (count($args) == 1) {
+      $this->indexmode = 1;
+      $callback = $this->createCallback($args[0], 'index');
+      $this->indexcallback = $callback;
+    } elseif (count($args) >= 2) {
+      $this->indexmode = 2;
+      $this->routes['index'][] = $args;
+    }
+  }
+
   // == MAGIC METHODS ==
   // Implements the hook PHP scripts
   public function __call($name, $args) {
@@ -220,6 +237,10 @@ class GSPlugin {
     } elseif ($explode[0] == 'runCallback' && $explode[1] == 'admin') {
       $args = array_merge(array('plugin' => $this), $args[0]);
       return $this->runCallback('admin', $explode[2], $args);
+    } elseif ($explode[0] == 'runCallback' && $explode[1] == 'index') {
+      return $this->runCallback('index', $explode[2], $args[0]);
+    } else {
+      throw new Exception('Method not found');
     }
   }
 
@@ -319,7 +340,6 @@ class GSPlugin {
         $callback = $route['callback'];
         $exports['matches'] = $route['matches'];
         $exports = array_merge($exports, $route['params']);
-        //export();
         $this->invoke($callback, array('exports' => $exports));
       }
     }
@@ -368,6 +388,7 @@ class GSPlugin {
       } elseif (!$valid && @preg_match($url, $request, $matches) === 1) {
         // Regular expression matches (error is suppressed here)
         $valid = true;
+        var_dump($matches);
         array_shift($matches);
       }
 
@@ -384,5 +405,49 @@ class GSPlugin {
     return array(
       'success' => false,
     );
+  }
+
+  public function executeIndex() {
+    $exports = array();
+    if ($this->indexmode === 1) {
+      call_user_func($this->indexcallback, $exports);
+    } elseif ($this->indexmode === 2) {
+      $route = $this->executeIndexRoutes();
+      if ($route['success']) {
+        $callback = $route['callback'];
+        $exports['matches'] = $route['matches'];
+        $exports = array_merge($exports, $route['params']);
+        $exports['page'] = $GLOBALS['data_index'];
+
+        ob_start();
+          $this->invoke($callback, array('exports' => $exports));
+          $GLOBALS['data_index']->content = ob_get_contents();
+        ob_end_clean();
+      }
+    }
+  }
+
+  private function executeIndexRoutes() {
+    $protocol = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on') ? 'https://' : 'http://';
+    $url = $protocol . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+
+    $prefix = 'index.php?id=';
+    $url = str_replace($GLOBALS['SITEURL'], '', $url);
+
+    if (strpos($url, $prefix) === 0) {
+      $url = substr($url, strpos($url, $prefix) + strlen($prefix));
+    }
+
+    if (strpos($url, '&') === 0) {
+      $url = substr($url, 1);
+    }
+
+    $route = $this->executeRoutes($url, $this->routes['index']);
+
+    if ($route['success']) {
+      $route['callback'] = $this->createCallback($route['callback'], 'index');
+    }
+
+    return $route;
   }
 }
