@@ -321,6 +321,20 @@ Get the plugin version (same as one given in the constructor)
 echo 'The plugin version is ' . $plugin->version();
 ```
 
+### website
+Get the plugin website (same as one given in the constructor)
+
+```php
+echo 'The plugin website is ' . $plugin->website();
+```
+
+### path
+Get the canonical path to the plugin folder
+
+```php
+include $plugin->path() . 'somefile.php';
+```
+
 ### tab
 #### `tab()`
 Get the plugin tab (same as one given in the constructor)
@@ -335,7 +349,7 @@ Register a new top level tab for the plugin in the admin panel
 $plugin->tab('mytab', 'My Tab');
 
 // Create 'My Other Tab' with the landing url
-// load.php?id=your_plugin&myaction
+// your_plugin&myaction
 $plugin->tab('myothertab', 'My Other Tab', 'myaction');
 ```
 
