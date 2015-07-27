@@ -237,8 +237,28 @@ echo $ui->element('div', array(
 ## GSPlugin
 ### SDK_VERSION
 ### __construct
+Instantiate the plugin wrapper with data about the plugin.
+```php
+$plugin = new GSPlugin(array(
+  'id'       => 'your_plugin',
+  'version'  => '1.0',
+  'author'   => 'You',
+  'website'  => 'http://yourwebsite.com',
+  'tab'      => 'plugin_page_tab',
+  'lang'     => 'default_language',
+));
+```
 ### id
+Get the plugin id (same as the one given in the constructor)
+```php
+echo 'The plugin id is ' . $plugin->id();
+```
 ### author
+Get the plugin author (same as one given in the constructor)
+```php
+echo 'The plugin author is ' . $plugin->author();
+```
+
 ### version
 ### tab
 ### sidebar
@@ -249,4 +269,5 @@ echo $ui->element('div', array(
 ### admin
 ### index
 ### i18n
+### autoload
 ### init
