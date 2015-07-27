@@ -474,14 +474,20 @@ $plugin->admin('your_plugin_admin');
 ```php
 // == CLASS METHOD EXAMPLE ==
 class YourPlugin {
-  function admin() {
+  // ...
+
+  public function admin() {
     echo 'This is your admin panel';
   }
+
+  // ...
 }
 
 // ...
-$obj = new YourPlugin();
-$plugin->admin(array($obj, 'admin'));
+$yp = new YourPlugin(/* params */);
+
+// ...
+$plugin->admin(array($yp, 'admin'));
 ```
 
 ```php
