@@ -250,8 +250,7 @@ echo $ui->element('div', array(
 ```
 
 ## GSPlugin
-This library is meant to ease plugin registration and registering the correct
-hooks.
+This class is designed to ease plugin, hook, and filter registration.
 
 ### SDK_VERSION
 Current SDK version. Use this to check if another version of the SDK has been
@@ -290,19 +289,34 @@ $plugin = new GSPlugin(array(
   'lang'     => 'default_language',
 ));
 ```
+
+
+### init
+Initializes plugin. Must be called at the end in order for all of your elements
+to be registered.
+
+```php
+// Finally:
+$plugin->init();
+```
+
 ### id
 Get the plugin id (same as the one given in the constructor)
+
 ```php
 echo 'The plugin id is ' . $plugin->id();
 ```
+
 ### author
 Get the plugin author (same as one given in the constructor)
+
 ```php
 echo 'The plugin author is ' . $plugin->author();
 ```
 
 ### version
 Get the plugin version (same as one given in the constructor)
+
 ```php
 echo 'The plugin version is ' . $plugin->version();
 ```
@@ -338,9 +352,9 @@ $plugin->sidebar('View Items', 'view');
 
 // Add sidebar link to url 'your_plugin&create' that only appears when inside
 // your plugin
-$plugin->sidebar('Create Item', 'edit', false);
+$plugin->sidebar('Create Item', 'create', false);
 
-// Add sidebar link that appears on a different tab
+// Add sidebar link that appears on the 'plugins' tab
 $plugin->sidebar('About Your Plugin', 'about', true, 'plugins');
 ```
 
@@ -356,7 +370,6 @@ function your_plugin_footer() {
 }
 
 // ...
-
 $plugin->hook('theme-footer', 'your_plugin_footer');
 ```
 
@@ -394,7 +407,6 @@ when your plugin has done something.
 
 ```php
 // After performing some action...
-
 $plugin->trigger('your-hook-name');
 ```
 
@@ -437,10 +449,8 @@ $plugin->filter('content', array($yp, 'content'));
 $content = $args[0];
 $string = 'This will be prepended to the page content';
 return $string . $content;
-```
 
-```php
-// ...
+// Registration file:
 $plugin->filter('content', 'frontend/content.php');
 ```
 
@@ -731,13 +741,4 @@ include GSPLUGINPATH . 'your_plugin/lib/' . strtolower($class) . '.php';
 
 // In your plugin registration file:
 $plugin->autoload('loadlib.php'));
-```
-
-### init
-Initializes plugin. Must be called in order for your plugin to be fully registered
-and for the hooks/filters to be registered.
-
-```php
-// Finally:
-$plugin->init();
 ```
