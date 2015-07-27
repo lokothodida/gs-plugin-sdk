@@ -274,17 +274,43 @@ Get the plugin tab (same as one given in the constructor)
 echo 'The plugin tab is ' . $plugin->tab();
 ```
 
-#### `tab($id, $label, $action = null)`
-Register a new tab for the plugin
+#### `tab($id, $label[, $action = null])`
+Register a new top level tab for the plugin in the admin panel
 ```php
-$plugin->tab(/* */);
+// Create new tab 'My Tab'
+$plugin->tab('mytab', 'My Tab');
+
+// Create 'My Other Tab' with the landing url
+// load.php?id=your_plugin&myaction
+$plugin->tab('myothertab', 'My Other Tab', 'myaction');
 ```
 
 ### sidebar
+#### `sidebar($label[, $action, $visibility, $tab])`
+Register a sidebar for the plugin. Defaults to the tab that you initialized the plugin with
+```php
+// Add a sidebar link
+$plugin->sidebar('My Plugin Sidebar Link');
+```
+
 ### hook
+Register a plugin hook
+#### `hook($name, $function, $arguments)`
+#### `hook($name, array($object, $method), $arguments)`
+#### `hook($name, $script)`
+
+### createhook
+Create a plugin hook (for other developers to use)
+
 ### filter
+Register a plugin filter
+
 ### script
+Register a Javascript file to be loaded
+
 ### style
+Register a CSS sheet to be loaded
+
 ### admin
 ### index
 ### i18n
