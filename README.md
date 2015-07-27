@@ -329,7 +329,7 @@ Register a CSS sheet to be loaded
 
 ### admin
 Load the administration panel for your plugin
-#### admin($function)
+#### `admin($function)`
 Execute a function when your plugin's admin page is accessed
 ```php
 // Global function example
@@ -353,14 +353,14 @@ $obj = new YourPlugin();
 $plugin->admin(array($obj, 'admin'));
 ```
 
-#### admin($script)
+#### `admin($script)`
 Execute a script when your plugin's admin page is accessed
 ```php
 // Execute your_plugin/backend/admin.php when your plugin is accessed
 $plugin->admin('backend/admin.php');
 ```
 
-#### admin($url, $action);
+#### `admin($url, $function)`
 Execute the `$action` (`function` or `script`) when the admin's url resembles the `$url`
 ```php
 // Load backend/create.php when in your_plugin&create
@@ -372,5 +372,75 @@ $plugin->admin('/edit=.*/', 'backend/edit.php');
 
 ### index
 ### i18n
+Returns and internationalized hash according to the languages you've defined
+for your plugin (and if a hash doesn't exist, it will search for a built in one
+
+```php
+echo $plugin->i18n('PLUGIN_TITLE');
+```
+
 ### autoload
+Adds an autoloader to be registered when the plugin is initialized. Allows
+classes to be `include`d on the fly.
+#### `autoload($function)`
+Global function:
+
+```php
+// Includes classes in your_plugin/lib/*.php (in lower case)
+function my_autoloader($class) {
+  include(GSPLUGINPATH . 'your_plugin/lib/' . strtolower($class) . '.php');
+}
+
+// ...
+
+$plugin->autoload('my_autoloader');
+```
+
+Class method:
+
+```php
+class YourPlugin {
+  // ...
+
+  // Includes classes in your_plugin/lib/*.php (in lower case)
+  public function autoloader($class) {
+    include(GSPLUGINPATH . 'your_plugin/lib/' . strtolower($class) . '.php');
+  }
+
+  // ...
+}
+// ...
+
+$yp = new YourPlugin
+$plugin->autoload(array($yp, 'autoloader'));
+```
+
+Singleton method:
+
+```php
+class YourPlugin {
+  // ...
+
+  // Includes classes in your_plugin/lib/*.php (in lower case)
+  public static function autoloader($class) {
+    include(GSPLUGINPATH . 'your_plugin/lib/' . strtolower($class) . '.php');
+  }
+
+  // ...
+}
+// ...
+
+$plugin->autoload('YourPlugin::autoloader'));
+
+Script:
+
+```php
+// your_plugin/autoloader.php
+include(GSPLUGINPATH . 'your_plugin/lib/' . strtolower($class) . '.php');
+```
+
+```php
+$plugin->autoload('autoloader.php'));
+```
+
 ### init
