@@ -463,19 +463,19 @@ Load the administration panel for your plugin
 #### `admin($function)`
 Execute a function when your plugin's admin page is accessed
 ```php
-// Global function example
+// == GLOBAL FUNCTION EXAMPLE ==
 function your_plugin_admin() {
-  // ...
+  echo 'This is your admin panel';
 }
 
 $plugin->admin('your_plugin_admin');
 ```
 
 ```php
-// Class method example
+// == CLASS METHOD EXAMPLE ==
 class YourPlugin {
   function admin() {
-    // ...
+    echo 'This is your admin panel';
   }
 }
 
@@ -484,15 +484,24 @@ $obj = new YourPlugin();
 $plugin->admin(array($obj, 'admin'));
 ```
 
-#### `admin($script)`
-Execute a script when your plugin's admin page is accessed
 ```php
-// Execute your_plugin/backend/admin.php when your plugin is accessed
+// == SCRIPT EXAMPLE ==
+// your_plugin/backend/admin.php
+echo 'This is your admin panel';
+```
+
+```php
+// ...
 $plugin->admin('backend/admin.php');
 ```
 
 #### `admin($url, $function)`
-Execute the `$action` (`function` or `script`) when the admin's url resembles the `$url`
+Execute the `$function` when the admin's url resembles the `$url`. `$url` can
+be a normal string or a Regular Expression. If it is a regular expression, the
+`$matches` will be passed as an array to the `$function`.
+
+TODO: Expand on this
+
 ```php
 // Load backend/create.php when in your_plugin&create
 $plugin->admin('create', 'backend/create.php');
