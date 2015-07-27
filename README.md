@@ -31,7 +31,17 @@ in order to simplify the typical problems that arise during [GetSimple plugin](h
 * Full documentation for below methods
 
 # Libraries
+* [GSUtils](#gsutils)
+* [GSUI](#gsui)
+* [GSPlugin](#gsplugin)
+
 ## GSUtils
+This library is meant to handle general utility-based problems in plugin development:
+
+* Directory management
+* File creation/manipulation
+* String manipulation
+
 ### SDK_VERSION
 ### __construct
 ### mkdir
@@ -52,6 +62,9 @@ in order to simplify the typical problems that arise during [GetSimple plugin](h
 ### clean
 
 ## GSUI
+This library is meant to help build administration panel interfaces as strings with
+relative ease.
+
 ### SDK_VERSION
 ### __construct
 ### header
@@ -237,6 +250,9 @@ echo $ui->element('div', array(
 ```
 
 ## GSPlugin
+This library is meant to ease plugin registration and registering the correct
+hooks.
+
 ### SDK_VERSION
 ### __construct
 Instantiate the plugin wrapper with data about the plugin.
