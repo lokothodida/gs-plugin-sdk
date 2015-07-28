@@ -10,6 +10,7 @@ class GSUtils {
   const EXCEPTION_MKDIR = 'mkDirErr';
   const EXCEPTION_RMDIR = 'rmDirErr';
   const EXCEPTION_MKFILE = 'mkFileErr';
+  const EXCEPTION_PUTFILE = 'putFileErr';
   const EXCEPTION_GETFILE = 'getFileErr';
   const EXCEPTION_RMFILE = 'rmFileErr';
   const EXCEPTION_MOVE = 'moveErr';
@@ -29,6 +30,7 @@ class GSUtils {
       'basepath' => GSDATAOTHERPATH,
       'adminurl' => $GLOBALS['SITEURL'] . $GLOBALS['GSADMIN'] . '/',
       'pluginid' => null,
+      'siteurl' => $GLOBALS['SITEURL'],
     ), $options);
   }
 
@@ -61,7 +63,7 @@ class GSUtils {
       }
 
       if ($htaccess) {
-        return $this->mkfile($path . '/.htaccess', $htaccess);
+        return $this->putfile($path . '/.htaccess', $htaccess);
       } else {
         return $mkdir;
       }
@@ -120,23 +122,32 @@ class GSUtils {
 
   // Make a file
   public function mkfile($file, $data) {
+    if ($this->exists($file)) {
+      throw new Exception(static::EXCEPTION_MKFILE);
+    } else {
+      return $this->putfile($file, $data);
+    }
+  }
+
+  // Put contents in a file
+  public function putfile($file, $data) {
     $file = $this->path($file);
     $info = $this->fileinfo($file);
 
     if ($info['extension'] == 'json') {
       $json = json_encode($data);
-      $mkfile = @file_put_contents($file, $json);
+      $putfile = @file_put_contents($file, $json);
     } elseif ($info['extension'] == 'xml') {
       // TODO
-      $mkfile = false;
+      $putfile = false;
     } else {
-      $mkfile = @file_put_contents($file, $data);
+      $putfile = @file_put_contents($file, $data);
     }
 
-    if ($mkfile) {
-      return $mkfile;
+    if ($putfile) {
+      return $putfile;
     } else {
-      throw new Exception(static::EXCEPTION_MKFILE);
+      throw new Exception(static::EXCEPTION_PUTFILE);
     }
   }
 
@@ -327,5 +338,9 @@ class GSUtils {
     }
 
     return $url . $path;
+  }
+
+  public function siteurl($path = null) {
+    return $this->options['siteurl'] . $path;
   }
 }
