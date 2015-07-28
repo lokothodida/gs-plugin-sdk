@@ -6,6 +6,7 @@ if (class_exists('GSUtils')) return;
 
 class GSUtils {
   // == CONSTANTS ==
+  const SDK_VERSION = 0.1;
   const EXCEPTION_MKDIR = 'mkDirErr';
   const EXCEPTION_RMDIR = 'rmDirErr';
   const EXCEPTION_MKFILE = 'mkFileErr';
@@ -255,5 +256,59 @@ class GSUtils {
   // File/folder exists
   public function exists($resource) {
     return file_exists($this->path($resource));
+  }
+
+  // Print
+  public function dump() {
+    $args = func_get_args();
+    echo '<pre><code>';
+    call_user_func_array('var_dump', $args);
+    echo '</code></pre>';
+  }
+
+  // Slug
+  public function slug($string, $default = 'temp') {
+    if (function_exists('prepareSlug')) {
+      // GS 3.4
+      return prepareSlug($string, $default);
+    } else {
+      $slug = $string;
+      // Need to implement
+      // Copied from slugging done on 3.4
+      //$slug = truncate($slug,GSFILENAMEMAX);
+      $slug = $this->translit($slug);
+      $slug = to7bit($slug, "UTF-8");
+      $slug = clean_url($slug); //old way @todo what does that mean ?
+      if(trim($slug) == '' && $default) return $default;
+      return $slug;
+    }
+  }
+
+  // Transliteration
+  public function translit() {
+    $args = func_get_args();
+    if (count($args) === 0) {
+      return i18n_r('TRANSLITERATION', null);
+    } else {
+      $string = $args[0];
+
+      if (function_exists('doTransliteration')) {
+        // GS 3.4
+        $string = doTransliteration($string);
+      } else {
+        $translit = $this->translit();
+
+        if (is_array($translit) && count($translit > 0)) {
+          $string = str_replace(array_keys($translit), array_values($translit), $string);
+        }
+      }
+
+      return $string;
+    }
+  }
+
+  // Clean strings
+  public function clean($string) {
+    return cl($string);
   }
 }
