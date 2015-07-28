@@ -27,6 +27,8 @@ class GSUtils {
   public function __construct($options = array()) {
     $this->options = array_merge(array(
       'basepath' => GSDATAOTHERPATH,
+      'adminurl' => $GLOBALS['SITEURL'] . $GLOBALS['GSADMIN'] . '/',
+      'pluginid' => null,
     ), $options);
   }
 
@@ -310,5 +312,20 @@ class GSUtils {
   // Clean strings
   public function clean($string) {
     return cl($string);
+  }
+
+  // Admin url
+  public function adminurl($path = null) {
+    $url = $this->options['adminurl'];
+
+    if ($this->options['pluginid']) {
+      $url = $url . 'load.php?id=' . $this->options['pluginid'];
+    }
+
+    if ($path &&  $this->options['pluginid']) {
+      $url = $url . '&';
+    }
+
+    return $url . $path;
   }
 }
