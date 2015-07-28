@@ -274,8 +274,7 @@ class GSPlugin {
     } elseif ($explode[0] == 'runCallback' && $explode[1] == 'index') {
       return $this->runCallback('index', $explode[2], $args[0]);
     } elseif ($explode[0] == 'runCallback' && $explode[1] == 'autoload') {
-      //var_dump($explode);
-      //return $this->runCallback('autoload', $explode[2], $args[0]);
+      return $this->runCallback('autoload', $explode[2], array('class' => $args[0]));
     } else {
       throw new Exception('Method not found');
     }
