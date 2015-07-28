@@ -1,9 +1,10 @@
 # Examples built with the SDK
 This folder contains example plugins. Ideally, each plugin should:
 
-* Work out of the box
+* Work out of the box (i.e. with minimal configuration)
 * Illustrate how to implement common plugin design patterns and features using the SDK
 * Have well-documented, explanatory source code
+* Have multi-language functionality built-in
 
 To install an example plugin, copy the folder and its corresponding PHP file
 from this directory to your GetSimple `plugins` folder, and enable it from the
