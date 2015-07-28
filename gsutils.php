@@ -9,6 +9,7 @@ class GSUtils {
   const EXCEPTION_MKDIR = 'mkDirErr';
   const EXCEPTION_RMDIR = 'rmDirErr';
   const EXCEPTION_MKFILE = 'mkFileErr';
+  const EXCEPTION_GETFILE = 'getFileErr';
 
   // == PROPERTIES ==
   protected $options;
@@ -129,6 +130,38 @@ class GSUtils {
       return $mkfile;
     } else {
       throw new Exception(static::EXCEPTION_MKFILE);
+    }
+  }
+
+  // Get file contents
+  public function getfile($file) {
+    $file = $this->path($file);
+    $info = $this->fileinfo($file);
+
+
+    if ($info['extension'] == 'json') {
+      $contents = @file_get_contents($file);
+
+      if ($contents !== false) {
+        $data = @json_decode($contents);
+
+        if ($data) {
+          $data = (array) $data;
+        }
+      } else {
+        $data = false;
+      }
+    } elseif ($info['extension'] == 'xml') {
+      // TODO
+      $data = false;
+    } else {
+      $data = @file_get_contents($file);
+    }
+
+    if ($data !== false) {
+      return $data;
+    } else {
+      throw new Exception(static::EXCEPTION_GETFILE);
     }
   }
 }
