@@ -11,6 +11,9 @@ class GSUtils {
   const EXCEPTION_MKFILE = 'mkFileErr';
   const EXCEPTION_GETFILE = 'getFileErr';
   const EXCEPTION_RMFILE = 'rmFileErr';
+  const EXCEPTION_MOVE = 'moveErr';
+  const EXCEPTION_MOVE_SOURCE = 'moveSrcErr';
+  const EXCEPTION_MOVE_DEST = 'moveDestErr';
 
   // == PROPERTIES ==
   protected $options;
@@ -175,5 +178,30 @@ class GSUtils {
     } else {
       throw new Exception(static::EXCEPTION_RMFILE);
     }
+  }
+
+  // Move a directory/file
+  public function move($source, $dest) {
+    $source = $this->path($source);
+    $dest = $this->path($dest);
+    $sourceExists = $this->exists($source);
+    $destExists = $this->exists($dest);
+    if (!$sourceExists) {
+      throw new Exception(static::EXCEPTION_MOVE_SOURCE);
+    } elseif ($destExists) {
+      throw new Exception(static::EXCEPTION_MOVE_DEST);
+    } else {
+      $move = @rename($source, $dest);
+      if (!$move) {
+        throw new Exception(static::EXCEPTION_MOVE);
+      } else {
+        return $move;
+      }
+    }
+  }
+
+  // File/folder exists
+  public function exists($resource) {
+    return file_exists($this->path($resource));
   }
 }
