@@ -8,12 +8,20 @@ if (!empty($_POST)) {
 // Get the pages
 $pages = $utils->getfiles('pages/*.json');
 
-// Display them in a table
-$title = $ui->title($plugin->i18n('VIEW_PAGES'));
+// Page header
+$title = $ui->header(
+  // Title
+  $plugin->i18n('VIEW_PAGES'),
 
-// 2 columns
+  // Quicknav link to 'create'
+  array('label' => $plugin->i18n('CREATE'), 'href' => '&create')
+);
+
+// Display pages in a table
+// 2 columns in the header
 $thead = array($plugin->i18n('PAGE'), '');
 
+// Build the rows
 $rows = array();
 
 foreach ($pages as $filename => $page) {
@@ -28,5 +36,6 @@ foreach ($pages as $filename => $page) {
 
 $table = $ui->table(array('header' => $thead, 'rows' => $rows));
 
-echo $title;
-echo $table
+// Output the header and table
+echo $header;
+echo $table;
