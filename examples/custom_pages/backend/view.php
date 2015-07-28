@@ -5,6 +5,7 @@ include 'init.php';
 
 // Process any requests
 if (!empty($_POST)) {
+  $type = 'create';
   include 'savedata.php';
 }
 

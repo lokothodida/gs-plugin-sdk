@@ -5,11 +5,13 @@ try {
   $file = 'pages/' . $slug . '.json';
   $page = $utils->rmfile($file);
 
-  $msg = $plugin->i18n('PAGE_DELETE_SUCC');
+  $msg = $plugin->i18n('PAGE_DEL_SUCC');
   echo $ui->success($msg);
   
   // Show the pages
   include 'view.php';
 } catch (Exception $error) {
-  echo $ui->error('OHSHIT');
+  $msg = $plugin->i18n('PAGE_DEL_ERR');
+  echo $ui->error($msg);
+  include 'view.php';
 }

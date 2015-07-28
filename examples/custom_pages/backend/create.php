@@ -12,7 +12,6 @@ $page = array(
 
 $title = 'CREATE_PAGE';
 $action = $utils->adminurl();
-$type = 'create';
 
 // Show the form
 include 'pageform.php';

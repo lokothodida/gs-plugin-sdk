@@ -25,6 +25,6 @@ try {
   $msg = $plugin->i18n('PAGE_SAVE_SUCC');
   echo $ui->success($msg);
 } catch (Exception $error) {
-  $msg = $plugin->i18n('PAGE_SAVE_ERROR');
+  $msg = $plugin->i18n('PAGE_SAVE_ERR');
   echo $ui->error($msg);
 }

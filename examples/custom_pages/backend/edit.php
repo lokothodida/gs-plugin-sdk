@@ -18,5 +18,7 @@ try {
   // Show the form
   include 'pageform.php';
 } catch (Exception $error) {
-  echo $ui->error('OHSHIT');
+  $msg = $plugin->i18n('PAGE_NOT_FOUND');
+  echo $ui->error($msg);
+  include 'view.php';
 }
