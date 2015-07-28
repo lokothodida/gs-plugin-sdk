@@ -157,6 +157,7 @@ class GSUtils {
       }
     } elseif ($info['extension'] == 'xml') {
       // TODO
+      // Currently doesn't read xml files
       $data = false;
     } else {
       $data = @file_get_contents($file);
@@ -167,6 +168,25 @@ class GSUtils {
     } else {
       throw new Exception(static::EXCEPTION_GETFILE);
     }
+  }
+
+  // Get a list of files
+  public function getfiles($query) {
+    $files = array();
+
+    if (is_string($query)) {
+      $path = $this->path($query);
+      $list = glob($path);
+    } elseif (is_array($query)) {
+      $list = $query;
+    }
+
+    foreach ($list as $file) {
+      $file = $this->path($file);
+      $files[$file] = $this->getfile($file);
+    }
+
+    return $files;
   }
 
   // Remove a file
