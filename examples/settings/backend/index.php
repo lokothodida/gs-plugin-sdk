@@ -5,9 +5,10 @@
 $utils  = new GSUtils();
 $ui     = new GSUI();
 $plugin = $exports['plugin'];
+$file   = 'mysettings.json';
 
 // Initialize the data structure
-if (!$utils->exists('mysettings.json')) {
+if (!$utils->exists($file)) {
   include 'initdata.php';
 }
 
@@ -18,7 +19,7 @@ if (!empty($_POST)) {
 
 // Display the panel
 try {
-  $settings = $utils->getfile('mysettings.json');
+  $settings = $utils->getfile($file);
   include 'viewsettings.php';
 } catch (Exception $error) {
   $msg = $plugin->i18n('SETTINGS_VIEW_ERROR');
