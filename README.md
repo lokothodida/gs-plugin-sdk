@@ -60,6 +60,8 @@ $utils = new GSUtils(array(
 Makes a directory and initializes it with an htaccess file. Throws an exception
 if the directory could not be made.
 
+#### `mkdir($path[, $mode = 0755, $recursive = true, $htaccess = true])`
+
 ```php
 try {
   $utils->mkdir('yourdir');
@@ -69,11 +71,18 @@ try {
 ```
 
 ### rmdir
-Removes a directory (by default in /data/other). If `$force` is set to true, all
+Removes a directory. If `$force` is set to true, all
 files and directories inside will be removed. Throws an exception if there was
 an error deleting the directory.
 
+#### `rmdir($path[, $force = false])`
+
 ```php
+try {
+  $utils->rmdir('yourdir', true);
+} catch (Exception $error) {
+  echo 'Error removing directory';
+}
 ```
 
 ### mvdir
@@ -113,7 +122,13 @@ try {
 }
 ```
 
+#### `mkfile($otherfile, $data)`
+
 ### putfile
+
+Writes contents to the file (same signature as mkfile). Throws exception if there
+was an error writing to the file.
+
 ```php
 try {
   $utils->putfile('yourdir/data.json', array(
