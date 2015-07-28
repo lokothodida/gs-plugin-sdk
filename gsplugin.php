@@ -334,6 +334,9 @@ class GSPlugin {
 
   private function runCallback($type, $id, $args = array()) {
     extract($args);
+    if (isset($args['exports'])) {
+      extract($args['exports']);
+    }
     return include($this->path() . $this->callbacks[$type][$id]);
   }
 
@@ -432,7 +435,7 @@ class GSPlugin {
         $callback = $route['callback'];
         $exports['matches'] = $route['matches'];
         $exports = array_merge($exports, $route['params']);
-        $exports['page'] = $GLOBALS['data_index'];
+        $exports['_index'] = $GLOBALS['data_index'];
 
         ob_start();
           $this->invoke($callback, array('exports' => $exports));
