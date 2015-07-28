@@ -7,8 +7,6 @@ try {
     $slug = $utils->slug($_POST['title']);
   }
 
-  if (empty($slug)) throw new Exception('INVALID_NAME');
-
   $filename = 'pages/' . $slug . '.json';
 
   $data = array(
