@@ -1,0 +1,3 @@
+<?php
+
+$utils->mkdir('pages');
