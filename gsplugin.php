@@ -331,7 +331,6 @@ class GSPlugin {
 
   private function runCallback($type, $id, $args = array()) {
     extract($args);
-    var_dump($type, $id);
     return include($this->path() . $this->callbacks[$type][$id]);
   }
 
@@ -347,7 +346,7 @@ class GSPlugin {
   public function executeAdmin() {
     $exports = array();
     if ($this->adminmode === 1) {
-      call_user_func($this->admincallback, $exports);
+      call_user_func($this->admincallback, array('exports' => $exports));
     } elseif ($this->adminmode === 2) {
       $route = $this->executeAdminRoutes();
       if ($route['success']) {
