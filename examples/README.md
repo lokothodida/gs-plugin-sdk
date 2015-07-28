@@ -11,12 +11,12 @@ from this directory to your GetSimple `plugins` folder, and enable it from the
 
 # Examples
 ### hello
-A simple 'Hello World' plugin that outputs Hello World into theme footers.
+A simple 'Hello World' plugin that outputs 'Hello World' into theme footers.
 
 ### settings
 Custom (dummy) settings page.
 
-**Illustrates**:
+#### Illustrates
 
 * Building admin UI
 * Creating/saving data
@@ -24,7 +24,7 @@ Custom (dummy) settings page.
 ### pages
 Custom page functionality designed to look like the built-in Pages functionality.
 
-**Illustrates**:
+#### Illustrates
 
 * Building admin UI
 * Creating/saving data
@@ -33,10 +33,20 @@ Custom page functionality designed to look like the built-in Pages functionality
 ### blog
 Builds on **pages** to implement a simple blogging plugin.
 
-**Illustrates**:
+#### Illustrates
 
 * Building admin UI
 * Creating/saving data
 * Querying data
 * Displaying data on the front-end
 
+### items
+Simple items manager that builds on **pages** and uses **I18N Search** for search indexing.
+
+#### Illustrates
+
+* Building admin UI
+* Creating/saving data
+* Querying data
+* Inter-plugin dependency management
+* Displaying data on the front-end
