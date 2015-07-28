@@ -17,4 +17,10 @@ if (!empty($_POST)) {
 }
 
 // Display the panel
-include 'viewsettings.php';
+try {
+  $settings = $utils->getfile('mysettings.json');
+  include 'viewsettings.php';
+} catch (Exception $error) {
+  $msg = $plugin->i18n('SETTINGS_VIEW_ERROR');
+  echo $ui->error($msg);
+}
