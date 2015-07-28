@@ -204,6 +204,9 @@ class GSPlugin {
       $callback = $this->createCallback($args[0], 'admin');
       $this->admincallback = $callback;
     } elseif (count($args) >= 2) {
+      if (empty($args[0])) {
+        $args[0] = '/(.*)/';
+      }
       $this->adminmode = 2;
       $this->routes['admin'][] = $args;
     }
@@ -401,7 +404,6 @@ class GSPlugin {
       } elseif (!$valid && @preg_match($url, $request, $matches) === 1) {
         // Regular expression matches (error is suppressed here)
         $valid = true;
-        var_dump($matches);
         array_shift($matches);
       }
 

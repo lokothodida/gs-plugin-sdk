@@ -11,7 +11,7 @@ $plugin = new GSPlugin(array(
   'version'  => '1.0',
   'author'   => 'You',
   'website'  => 'http://yourwebsite.com',
-  'tab'      => 'theme',
+  'tab'      => 'settings',
   'lang'     => 'en_US',
 ));
 
@@ -19,7 +19,7 @@ $plugin = new GSPlugin(array(
 $plugin->sidebar($plugin->i18n('PLUGIN_SIDEBAR'));
 
 // Setting the admin panel
-$plugin->admin('backend/index.php');
+$plugin->admin(null, 'backend/index.php', array('plugin' => $plugin));
 
 // Initialization
 $plugin->init();
