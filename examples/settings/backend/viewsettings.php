@@ -1,5 +1,8 @@
 <?php
 
+// Get the settings
+$settings = $utils->getfile('mysettings.json');
+
 // Display the form using the UI elements
 // Title
 $title = $ui->title($plugin->i18n('PLUGIN_TITLE'));
