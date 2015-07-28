@@ -2,7 +2,7 @@
 
 // Initialize the data structure
 try {
-  $utils->putfile('mysettings.json', array(
+  $utils->putfile($file, array(
     'setting1' => 'My value',
     'setting2' => 'Another value',
     'setting3' => 'Yet another value',
