@@ -400,23 +400,19 @@ class GSUI {
   }
 
   // HTML element
-  public function element($tag, $attrs = array(), $content = ' ') {
+  public function element($tag, $attrs = array(), $content = null) {
     $element = '<' . $tag . ' ';
 
     foreach ($attrs as $attr => $val) {
       $element .= $attr . '="' . $val . '" ';
     }
 
-    if (!$content) {
-      $element .= ' />';
+    if (is_array($content)) {
+      $content = implode("\n", $content);
     } else {
-      if (is_array($content)) {
-        $content = implode("\n", $content);
-      } else {
-        $content = (string) $content;
-      }
-      $element .= '>' . $content . '</' . $tag . '>';
+      $content = (string) $content;
     }
+    $element .= '>' . $content . '</' . $tag . '>';
 
     return $element;
   }
