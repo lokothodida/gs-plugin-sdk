@@ -190,6 +190,27 @@ class GSPlugin {
     return $this->info['path'];
   }
 
+  // Tells you if plugins are enabled
+  public function enabled() {
+    $plugins = func_get_args();
+
+    if (count($plugins) && is_array($plugins[0])) {
+      $plugins = array_merge($plugins, $plugins[0]);
+    }
+
+    $live = $GLOBALS['live_plugins'];
+    $enabled = true;
+
+    foreach ($plugins as $plugin) {
+      $file = $plugin . '.php';
+
+      $enabled = isset($live[$file]) && $live[$file] != 'false';
+      if (!$enabled) break;
+    }
+
+    return $enabled;
+  }
+
   // Registers admin panel actions
   // If $args[0] is a PHP script, run that script
   // If $args[0] is a function, run the function
