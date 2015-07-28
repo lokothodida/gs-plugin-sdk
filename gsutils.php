@@ -7,6 +7,7 @@ if (class_exists('GSUtils')) return;
 class GSUtils {
   // == CONSTANTS ==
   const EXCEPTION_MKDIR = 'mkDirErr';
+  const EXCEPTION_RMDIR = 'rmDirErr';
   const EXCEPTION_MKFILE = 'mkFileErr';
 
   // == PROPERTIES ==
@@ -58,6 +59,54 @@ class GSUtils {
       }
     } else {
       throw new Exception(static::EXCEPTION_MKDIR);
+    }
+  }
+
+  // List files in a directory
+  public function scandir($path, $fullpath = true, $parents = false) {
+    $path = $this->path($path);
+    $files = scandir($path);
+
+    if (!$parents) {
+      $files = array_diff($files, array('.', '..'));
+    }
+
+    if ($fullpath) {
+      foreach ($files as $i => $file) {
+        $files[$i] = $path . '/' . $file;
+      }
+    }
+
+    return $files;
+  }
+
+  // Remove a directory
+  public function rmdir($path, $force = false) {
+    $path = $this->path($path);
+    if ($force) {
+      $files = $this->scandir($path);
+
+      foreach ($files as $file) {
+
+        if (is_dir($file)) {
+          $rmdir = $this->rmdir($file, true);
+        } else {
+          $rmdir = @unlink($file);
+        }
+
+        if (!$rmdir) {
+          throw new Exception(static::EXCEPTION_RMDIR);
+        }
+      }
+
+    }
+
+    $rmdir = @rmdir($path);
+
+    if ($rmdir) {
+      return $rmdir;
+    } else {
+      throw new Exception(static::EXCEPTION_RMDIR);
     }
   }
 
