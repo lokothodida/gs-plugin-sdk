@@ -186,6 +186,7 @@ class GSUtils {
     $dest = $this->path($dest);
     $sourceExists = $this->exists($source);
     $destExists = $this->exists($dest);
+
     if (!$sourceExists) {
       throw new Exception(static::EXCEPTION_MOVE_SOURCE);
     } elseif ($destExists) {
@@ -198,6 +199,37 @@ class GSUtils {
         return $move;
       }
     }
+  }
+
+  // Copy a file/directory
+  public function copy($source, $dest, $permission = 0755) {
+    $source = $this->path($source);
+    $dest = $this->path($dest);
+
+    if (is_file($source)) {
+      $copy = @copy($source, $dest);
+      if (!$copy) {
+        throw new Exception(static::EXCEPTION_COPY);
+      }
+    } else {
+
+      $files = $this->scandir($source);
+      foreach ($files as $file) {
+        $f = '/' . basename($file);
+
+        if (!is_dir($file)) {
+          $copy = @copy($source . $f, $dest . $f);
+          if (!$copy) {
+            throw new Exception(static::EXCEPTION_COPY);
+          }
+        } else {
+          $mkdir = $this->mkdir($source . $f, $dest . $f);
+          $copy = $mkdir && $this->copy($source . $f, $dest . $f, $permission);
+        }
+      }
+    }
+
+    return $copy;
   }
 
   // File/folder exists
