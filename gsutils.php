@@ -10,6 +10,7 @@ class GSUtils {
   const EXCEPTION_RMDIR = 'rmDirErr';
   const EXCEPTION_MKFILE = 'mkFileErr';
   const EXCEPTION_GETFILE = 'getFileErr';
+  const EXCEPTION_RMFILE = 'rmFileErr';
 
   // == PROPERTIES ==
   protected $options;
@@ -162,6 +163,17 @@ class GSUtils {
       return $data;
     } else {
       throw new Exception(static::EXCEPTION_GETFILE);
+    }
+  }
+
+  // Remove a file
+  public function rmfile($file) {
+    $file = $this->path($file);
+    $rmfile = @unlink($file);
+    if ($rmfile) {
+      return $rmfile;
+    } else {
+      throw new Exception(static::EXCEPTION_RMFILE);
     }
   }
 }
