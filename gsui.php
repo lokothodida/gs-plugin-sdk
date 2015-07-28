@@ -377,6 +377,28 @@ class GSUI {
     return $script;
   }
 
+  // Success
+  public function success($msg) {
+    return $this->statusmessage(true, $msg);
+  }
+
+  // Error
+  public function error($msg) {
+    return $this->statusmessage(false, $msg);
+  }
+
+  // Status message
+  private function statusmessage($isSuccess, $msg, $undo = null) {
+    return '
+      <script type="text/javascript">
+        $(function() {
+          $("div.bodycontent").before(\'<div class="' . ($isSuccess ? 'updated' : 'error') . '" style="display:block;">\'+
+          ' . json_encode($msg) . ' + \'</div>\');
+          $(".updated, .error").fadeOut(500).fadeIn(500);
+        });
+      </script>';
+  }
+
   // HTML element
   public function element($tag, $attrs = array(), $content = ' ') {
     $element = '<' . $tag . ' ';
