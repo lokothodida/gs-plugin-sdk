@@ -204,7 +204,7 @@ class GSPlugin {
       $callback = $this->createCallback($args[0], 'admin');
       $this->admincallback = $callback;
     } elseif (count($args) >= 2) {
-      if (empty($args[0])) {
+      if (empty($args[0]) && !is_string($args[0])) {
         $args[0] = '/(.*)/';
       }
       $this->adminmode = 2;
