@@ -3,7 +3,7 @@
 // Plugin SDK English Language File
 $i18n = array();
 $i18n['PLUGIN_TITLE'] = 'Plugin SDK';
-$i18n['PLUGIN_DESCRIPTION'] = 'Plugin SDK';
+$i18n['PLUGIN_DESCRIPTION'] = 'SDK library and plugin builder';
 $i18n['PLUGIN_SIDEBAR'] = 'Build Plugins';
 $i18n['BUILD'] = 'Build';
 $i18n['PLUGIN_NAME'] = 'Plugin name';
