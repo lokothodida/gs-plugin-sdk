@@ -6,6 +6,15 @@ set up easily regardless of what development machine they are using.
 
 The Vagrant environment is built on [Scotch Box](https://github.com/scotch-io/scotch-box).
 
+# Table of Contents
+* [Features](#features)
+* [Installation](#installation)
+* [Usage](#usage)
+* [Developing Plugins](#developing-plugins)
+* [SDK Library](#sdk-library)
+* [Documentation](#documentation)
+* [Troubleshooting](#troubleshooting)
+
 ## Features
 
 * Documented example plugins
@@ -23,31 +32,47 @@ by running:
     $ vagrant plugin install vagrant-hostmanager
     ```
 
-4. Clone this repository:
+4. Clone this repository to any desired folder:
 
     ```
     $ git clone https://github.com/lokothodida/gs-plugin-sdk
     ```
 
-5. In the cloned folder, run `vagrant up`
-6. Go to `getsimple.dev/` to see the development site. Log into the admin
-panel at `getsimple.dev/admin/` with username `admin` and password `demo123`
-7. To turn off the server, run `vagrant halt`
+## Usage
+
+1. In the cloned folder, run `vagrant up`
+2. Go to `getsimple.dev/` in your browser to see the development site. Log into
+the admin panel at `getsimple.dev/admin/` with username `admin` and password `demo123`
+3. [Develop your plugin!](#developing-plugins)
+4. To turn off the VM, run `vagrant halt`. To destroy the VM, run `vagrant destroy`.
 
 ## Developing plugins
 
 The best workflow with this development environment comes from having a
 repository for your plugin. You can still benefit otherwise.
 
-1. In the `build` folder, clone your plugin's repository.
-2. Copy one of the example plugins in the `plugins` directory and rename it to
+1. Copy one of the example plugins in the `plugins` directory and rename it to
 your needs.
-3. Code the plugin to your needs using the SDK library
-4. Go to `Plugins` -> `Build`
-5. At the name of your plugin, type the name of the repository folder and click
-`build`.
+2. Code the plugin to your needs using the [SDK library](#sdk-library)
+3. In the `build` folder, clone your plugin's repository.
+4. Go to `Plugins` -> `Build Plugins`
+5. By the name of your plugin, type the name of the repository folder and click
+`Build`.
 6. Your plugin will now packaged up with the SDK library and copied directly to
 your repository.
 
-This workflow allows you to develop from one shared, working environment and
+This workflow allows you to develop in one development environment and easily
 deploy the results to your own repositories.
+
+## SDK Library
+
+The SDK Library is a collection of classes designed to make plugin development
+easier. These classes are:
+
+* `GSPlugin`
+* `GSUtils`
+* `GSPlugin`
+
+## Documentation
+
+## Troubleshooting
