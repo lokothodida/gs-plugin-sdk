@@ -2,9 +2,9 @@
 
 $plugin = new GSPlugin(array(
   'id'       => $id,
-  'version'  => '1.0',
-  'author'   => 'You',
-  'website'  => 'http://yourwebsite.com',
+  'version'  => '0.1',
+  'author'   => 'Lawrence Okoth-Odida',
+  'website'  => 'http://github.com/lokothodida',
   'tab'      => 'plugins',
   'lang'     => 'en_US',
 ));
