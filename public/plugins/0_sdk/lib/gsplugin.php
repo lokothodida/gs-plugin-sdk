@@ -182,7 +182,15 @@ class GSPlugin {
 
   // i18n hashes, namespaced by the plugin id
   public function i18n($hash) {
-    return i18n_r($this->id() . '/' . $hash);
+    $args = func_get_args();
+    $string = i18n_r($this->id() . '/' . $hash);
+
+    if (count($args) > 1) {
+      $args[0] = $string;
+      $string = call_user_func_array('sprintf', $args);
+    }
+
+    return $string;
   }
 
   // Plugin path
