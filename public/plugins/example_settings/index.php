@@ -1,10 +1,5 @@
 <?php
 
-// TODO: Documentation
-include 'lib/gsplugin.php';
-include 'lib/gsutils.php';
-include 'lib/gsui.php';
-
 // Registration
 $plugin = new GSPlugin(array(
   'id'       => $id,
