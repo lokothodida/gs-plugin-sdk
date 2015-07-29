@@ -100,6 +100,18 @@ read_pluginsxml();        // get the live plugins into $live_plugins array
 
 if(!is_frontend()) create_pluginsxml();      // check that plugins have not been removed or added to the directory
 
+// == HACK TO LOAD SDK FIRST ==
+$sdkId = 'sdk.php';
+
+if (isset($live_plugins[$sdkId])) {
+  $sdkSet = $live_plugins[$sdkId];
+  $l_p = array();
+  $l_p[$sdkId] = $sdkSet;
+  unset($live_plugins[$sdkId]);
+  $live_plugins = $l_p + $live_plugins;
+}
+// == END OF HACK ==
+
 // load each of the plugins
 foreach ($live_plugins as $file=>$en) {
   $pluginsLoaded=true;
