@@ -14,12 +14,13 @@ set up, regardless of what development machine they are using.
 * [Troubleshooting](#troubleshooting)
 * [Thanks](#thanks)
 
-## Features/Benefits
+## Features
 
 * Documented example plugins
 * SDK library for simplifying common development problems
 * A build procedure to deploy plugins to your local repository folders
-* A GetSimple environment anybody can test with!
+* No need to install a LAMP/WAMP stack on your dev machine to run this
+* A GetSimple environment anybody can fully test by pulling in the repo!
 
 ## Installation
 
@@ -41,8 +42,8 @@ by running:
 ## Usage
 
 1. In the cloned folder, run `vagrant up`
-2. Go to `getsimple.dev/` in your browser to see the development site. Log into
-the admin panel at `getsimple.dev/admin/` with username `admin` and password `demo123`
+2. Go to `get-simple.dev/` in your browser to see the development site. Log into
+the admin panel at `get-simple.dev/admin/` with username `admin` and password `demo123`
 3. [Develop your plugin!](#developing-plugins)
 4. To turn off the VM, run `vagrant halt`. To destroy the VM, run `vagrant destroy`.
 
