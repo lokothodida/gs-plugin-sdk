@@ -81,6 +81,21 @@ examples.
 
 ## Troubleshooting
 
+### Ubuntu/Debian
+* If your terminal gives you this message:
+    ```
+    It appears your machine doesn't support NFS, or there is not an
+    adapter to enable NFS on this machine for Vagrant. Please verify
+    that `nfsd` is installed on your machine, and try again. If you're
+    on Windows, NFS isn't supported. If the problem persists, please
+    contact Vagrant support.
+    ```
+    Then make sure that you have the `nsf-common` installed:
+
+    ```
+    sudo apt-get install nfs-common
+    ```
+
 ## Thanks
 * [GetSimpleCMS](https://github.com/GetSimpleCMS/) for the great CMS
 * [scotch-io](https://github.com/scotch-io/) for the [Scotch Box](https://github.com/scotch-io/scotch-box) Vagrant setup
