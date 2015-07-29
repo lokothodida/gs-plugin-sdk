@@ -271,7 +271,7 @@ class GSUtils {
             throw new Exception(static::EXCEPTION_COPY);
           }
         } else {
-          $mkdir = $this->mkdir($source . $f, $dest . $f);
+          $mkdir = $this->mkdir($dest . $f, false);
           $copy = $mkdir && $this->copy($source . $f, $dest . $f, $permission);
         }
       }
