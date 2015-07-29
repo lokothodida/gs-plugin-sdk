@@ -68,13 +68,13 @@ deploy the results to your own repositories.
 The SDK Library is a collection of classes designed to make plugin development
 easier. These classes are:
 
-* `GSPlugin`
-* `GSUtils`
-* `GSPlugin`
+* `GSPlugin` - for plugin registration, hooks, filters and admin panel
+* `GSUtils` - for general utilities, such as creating/saving data, manipulating strings, etc...
+* `GSUI` - for building UI elements consistent with the admin panel
 
 ## Documentation
 
-Go [here](docs/) for documentation on the SDK library methods and development
+Go [here](public/docs/) for documentation on the SDK library methods and development
 using them. Each example plugin in this repository should be fully documented as
 to its use-case and construction, so be sure to read the source code of the
 examples.
