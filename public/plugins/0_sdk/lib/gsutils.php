@@ -166,6 +166,8 @@ class GSUtils {
 
         if ($data) {
           $data = (array) $data;
+        } else {
+          $data = false;
         }
       } else {
         $data = false;
