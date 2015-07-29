@@ -17,7 +17,7 @@ foreach ($plugins as $filename) {
   $rows[] = array(
     $name,
     $ui->input(array(
-      'name' => 'plugin-' . $name,
+      'name' => $name,
       'placeholder' => $name . '/',
     ))
   );

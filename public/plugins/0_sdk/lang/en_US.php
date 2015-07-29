@@ -10,3 +10,5 @@ $i18n['PLUGIN_NAME'] = 'Plugin name';
 $i18n['BUILD_DESC'] = 'This page allows you to bundle a plugin with the current
 SDK library.';
 $i18n['BUILD_DEST'] = 'Build destination (in /build/)';
+$i18n['BUILD_SUCC'] = 'Builds successful';
+$i18n['BUILD_ERR'] = 'Error building plugins';
