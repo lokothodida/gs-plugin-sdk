@@ -5,7 +5,7 @@ if (!empty($_POST)) {
   include 'build.php';
 }
 
-$title = $ui->title($plugin->i18n('BUILD'));
+$title = $ui->title($plugin->i18n('PLUGIN_SIDEBAR'));
 
 $plugins = glob($plugin->path() . '/../*.php');
 
@@ -32,7 +32,12 @@ $table = $ui->table(array(
 
 $form = $ui->form(array(
   'method' => 'post',
-  'content' => array($table, $ui->submit($plugin->i18n('BUILD')))
+  'content' => array(
+    $table,
+    $ui->submit(array(
+      'value' => $plugin->i18n('BUILD'),
+    ))
+  )
 ));
 
 $desc = $ui->parag($plugin->i18n('BUILD_DESC'));
