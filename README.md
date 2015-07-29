@@ -2,9 +2,7 @@
 This project is an integrated development environment for the GetSimple CMS.
 Its aim is to make (plugin) development simpler by providing a pre-configured
 GetSimple installation that is geared towards developers, and which anyone can
-set up easily regardless of what development machine they are using.
-
-The Vagrant environment is built on [Scotch Box](https://github.com/scotch-io/scotch-box).
+set up, regardless of what development machine they are using.
 
 # Table of Contents
 * [Features](#features)
@@ -14,6 +12,7 @@ The Vagrant environment is built on [Scotch Box](https://github.com/scotch-io/sc
 * [SDK Library](#sdk-library)
 * [Documentation](#documentation)
 * [Troubleshooting](#troubleshooting)
+* [Thanks](#thanks)
 
 ## Features
 
@@ -76,3 +75,7 @@ easier. These classes are:
 ## Documentation
 
 ## Troubleshooting
+
+## Thanks
+* [GetSimpleCMS](https://github.com/GetSimpleCMS/ for the great CMS)
+* [scotch-io](https://github.com/scotch-io/) for the [Scotch Box](https://github.com/scotch-io/scotch-box) Vagrant setup
