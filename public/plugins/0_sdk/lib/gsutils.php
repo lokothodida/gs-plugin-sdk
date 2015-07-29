@@ -16,6 +16,7 @@ class GSUtils {
   const EXCEPTION_MOVE = 'moveErr';
   const EXCEPTION_MOVE_SOURCE = 'moveSrcErr';
   const EXCEPTION_MOVE_DEST = 'moveDestErr';
+  const EXCEPTION_COPY = 'copyErr';
 
   // == PROPERTIES ==
   protected $options;
@@ -237,8 +238,14 @@ class GSUtils {
 
   // Copy a file/directory
   public function copy($source, $dest, $permission = 0755) {
+
     $source = $this->path($source);
     $dest = $this->path($dest);
+
+    $destdir = dirname($dest);
+    if (!$this->exists($destdir)) {
+      $this->mkdir($destdir, false);
+    }
 
     if (is_file($source)) {
       $copy = @copy($source, $dest);
@@ -252,6 +259,11 @@ class GSUtils {
         $f = '/' . basename($file);
 
         if (!is_dir($file)) {
+          // Ensure destination exists
+          if (!$this->exists($dest)) {
+            $this->mkdir($dest, false);
+          }
+
           $copy = @copy($source . $f, $dest . $f);
           if (!$copy) {
             throw new Exception(static::EXCEPTION_COPY);
