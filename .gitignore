@@ -1,3 +1,8 @@
+# Temp files
 *~
+
+# Vagrant files
 .vagrant/
+
+# GetSimple Cache
 public/data/cache/
