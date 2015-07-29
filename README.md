@@ -1,8 +1,10 @@
-GetSimple (Plugin) Development Environment
+# GetSimple (Plugin) Development Environment
 This project is an integrated development environment for the GetSimple CMS.
 Its aim is to make (plugin) development simpler by providing a pre-configured
 GetSimple installation that is geared towards developers, and which anyone can
 set up easily regardless of what development machine they are using.
+
+The Vagrant environment is built on [Scotch Box](https://github.com/scotch-io/scotch-box).
 
 ## Features
 
