@@ -14,7 +14,7 @@ $settings = array(
 
 // Save the data
 try {
-  $utils->mkfile($file, $settings);
+  $utils->putfile($file, $settings);
   $msg = $plugin->i18n('SETTINGS_SAVE_SUCC');
   echo $ui->success($msg);
 } catch (Exception $error) {
