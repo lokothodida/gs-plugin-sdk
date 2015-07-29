@@ -10,10 +10,11 @@ $title = $ui->title($plugin->i18n('BUILD'));
 $plugins = glob($plugin->path() . '/../*.php');
 
 $rows = array();
+$ignore = include 'ignore.php';
 
 foreach ($plugins as $filename) {
   $name = basename($filename, ".php");
-  if ($name == $plugin->id()) continue;
+  if (in_array($name, $ignore)) continue;
   $rows[] = array(
     $name,
     $ui->input(array(
@@ -31,7 +32,7 @@ $table = $ui->table(array(
 
 $form = $ui->form(array(
   'method' => 'post',
-  'content' => array($table, $ui->submit())
+  'content' => array($table, $ui->submit($plugin->i18n('BUILD')))
 ));
 
 $desc = $ui->parag($plugin->i18n('BUILD_DESC'));
