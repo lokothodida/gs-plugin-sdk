@@ -14,11 +14,12 @@ set up, regardless of what development machine they are using.
 * [Troubleshooting](#troubleshooting)
 * [Thanks](#thanks)
 
-## Features
+## Features/Benefits
 
 * Documented example plugins
-* A build procedure to deploy plugins
-* Developer mode turned on
+* SDK library for simplifying common development problems
+* A build procedure to deploy plugins to your local repository folders
+* A GetSimple environment anybody can test with!
 
 ## Installation
 
