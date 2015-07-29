@@ -6,3 +6,5 @@
 
 # GetSimple Cache
 public/data/cache/
+public/data/other/logs/
+public/backups/
