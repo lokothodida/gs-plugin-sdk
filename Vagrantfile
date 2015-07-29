@@ -2,7 +2,7 @@
 # vi: set ft=ruby :
 
 ip_address = "192.168.33.10"
-project_name = "getsimple"
+project_name = "get-simple"
 
 Vagrant.configure("2") do |config|
 
