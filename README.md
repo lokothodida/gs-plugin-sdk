@@ -74,8 +74,13 @@ easier. These classes are:
 
 ## Documentation
 
+Go [here](docs/) for documentation on the SDK library methods and development
+using them. Each example plugin in this repository should be fully documented as
+to its use-case and construction, so be sure to read the source code of the
+examples.
+
 ## Troubleshooting
 
 ## Thanks
-* [GetSimpleCMS](https://github.com/GetSimpleCMS/ for the great CMS)
+* [GetSimpleCMS](https://github.com/GetSimpleCMS/) for the great CMS
 * [scotch-io](https://github.com/scotch-io/) for the [Scotch Box](https://github.com/scotch-io/scotch-box) Vagrant setup
