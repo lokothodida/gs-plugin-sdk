@@ -10,5 +10,6 @@ $i18n['PLUGIN_NAME'] = 'Plugin name';
 $i18n['BUILD_DESC'] = 'This page allows you to bundle a plugin with the current
 SDK library.';
 $i18n['BUILD_DEST'] = 'Build destination (in /build/)';
-$i18n['BUILD_SUCC'] = 'Plugin %s built successfuly';
-$i18n['BUILD_ERR'] = 'Error building %s';
+$i18n['BUILD_SUCC'] = 'Plugin %s built successfully';
+$i18n['BUILD_CONFIG_ERR'] = 'Error with SDK config for %s';
+$i18n['BUILD_COPY_ERR'] = 'Could not copy files for %s';
