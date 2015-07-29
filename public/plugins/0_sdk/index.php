@@ -14,7 +14,10 @@ $plugin->sidebar($plugin->i18n('PLUGIN_SIDEBAR'));
 
 // Exports
 $ui = new GSUI();
-$utils = new GSUtils(array('pluginid' => $plugin->id()));
+$utils = new GSUtils(array(
+  'pluginid' => $plugin->id(),
+  'basepath' => GSROOTPATH,
+));
 $exports = array(
   'plugin' => $plugin,
   'ui' => $ui,
