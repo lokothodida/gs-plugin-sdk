@@ -423,7 +423,7 @@ class GSUI {
 
     foreach ($values as $key => $value) {
       $placeholder = '{' . $key . '}';
-      $html = str_replace($key, $value, $html);
+      $html = str_replace($placeholder, $value, $html);
     }
 
     return $html;
