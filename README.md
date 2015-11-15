@@ -421,6 +421,19 @@ echo $ui->element('div', array(
 ), 'Content');
 ```
 
+### template
+Templating for \[\[placeholders\]\]. Takes an HTML string and an `array` mapping
+placeholder names to to values and returns the HTML string with placeholders
+replaced.
+
+```php
+echo $ui->template($html, array(
+  'username'    => 'Jim',
+  'registered'  => 'July 2020',
+  'age'         => '106',
+), 'Content');
+```
+
 ## GSPlugin
 This class is designed to ease plugin, hook, and filter registration.
 

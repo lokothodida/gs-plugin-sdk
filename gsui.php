@@ -416,4 +416,16 @@ class GSUI {
 
     return $element;
   }
+
+  // Templating
+  public function template($string, $values) {
+    $html = $string;
+
+    foreach ($values as $key => $value) {
+      $placeholder = '{' . $key . '}';
+      $html = str_replace($key, $value, $html);
+    }
+
+    return $html;
+  }
 }
