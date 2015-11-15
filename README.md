@@ -423,7 +423,7 @@ echo $ui->element('div', array(
 
 ### template
 Templating for `{placeholders}`. Takes an HTML string and an `array` mapping
-placeholder names to to values and returns the HTML string with placeholders
+placeholder names to values and returns the HTML string with placeholders
 replaced.
 
 ```php
