@@ -152,7 +152,7 @@ try {
 ```
 
 ### mvfile
-Deletes a file.
+Moves a file.
 
 ```php
 try {
@@ -353,7 +353,7 @@ echo $ui->input(array(
 
 // Title text field
 echo $ui->input(array(
-  'type' => 'title',
+  'type' => 'text',
   'name' => 'title',
   'value' => 'Your Title Here',
 ));
