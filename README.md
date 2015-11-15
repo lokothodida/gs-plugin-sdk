@@ -58,7 +58,8 @@ $utils = new GSUtils(array(
 
 ### mkdir
 Makes a directory and initializes it with an htaccess file. Throws an exception
-if the directory could not be made.
+if the directory could not be made. `$htaccess` defaults to "Deny from all" -
+otherwise pass a string to it with the desired file contents.
 
 #### `mkdir($path[, $mode = 0755, $recursive = true, $htaccess = true])`
 
@@ -361,7 +362,7 @@ echo $ui->input(array(
 // Checkbox
 echo $ui->input(array(
   'label' => 'Enable HTML Editor?',
-  'type' => 'check',
+  'type' => 'checkbox',
   'name' => 'enableeditor',
   'value' => true,
 ));
